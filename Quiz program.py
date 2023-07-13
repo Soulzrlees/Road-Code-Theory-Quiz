@@ -10,9 +10,9 @@ def background_image():
     background_image = Label(window, image=bg)
     background_image.place(x=0, y=0, relwidth=1, relheight=1)
 
-
 #Creating main interface labels for each different categories
 def main_interface_label():
+    global  Timelimit_OnorOff
     Behavior_Label = Label(window, text="Behavior", height= 2, width=18, bg = "black", fg= "white", 
     font = mainfontstyle).place(x=60, y=220)
 
@@ -31,11 +31,28 @@ def main_interface_label():
     Sign_label = Label(window, text="Sign", height= 2, width=20, bg = "black", fg= "white", 
     font = mainfontstyle).place(x=680, y=500)
 
-    Timelimit_label = Button(window, text="Time limit on / off", height= 5, width=20, bg = "black", fg= "white", 
-    font = mainfontstyle, bd=0).place(x=1150, y=100)
-    
-    RandomQuestion_label = Button(window, text="Random 10 Questions", height= 5, width=20, bg = "black", fg= "white", 
-    font = mainfontstyle, bd=0).place(x=1150, y=200)
+    Timelimit_OnorOff = Button(window, text="Time limit\n On / Off", height=5, width=20, bg="red", fg="white",
+    font=mainfontstyle, bd=0, command=Timelimit_activation)
+    Timelimit_OnorOff.place(x=1160, y=120)
+
+#Spinkbox for the user to select number of question from 15 to 30 randomize questions
+    RandomQuestions = Button(window, text="Confirm number of\nRandomized Questions", height= 5, width=20, bg = "black", fg= "white", 
+    font = mainfontstyle, bd=0).place(x=1160, y=330)
+    randomquestion_spinbox = Spinbox(window, from_=10, to=35, font = mainfontstyle, bd= 10).place(x=1160, y=300)
+#Spinkbox for timer from 10 min to 60 mins (default 60mins)
+    Timelimit_spinbox = Spinbox(window, from_=10, to=60, font = mainfontstyle, bd= 10).place(x=1160, y=100)
+
+
+def Timelimit_activation():
+    global Timelimit_OnorOff
+
+    # Check the current background color of Timelimit_OnorOff
+    current_bg = Timelimit_OnorOff.cget("bg")
+    # Toggle the background color
+    if current_bg == "green":
+        Timelimit_OnorOff.config(bg="red")
+    else:
+        Timelimit_OnorOff.config(bg="green")
 
 #Creating main interface image (that acts as a button) for each different categories
 def main_interface_image():
@@ -63,7 +80,7 @@ def main_interface_image():
     Sign_picture = PhotoImage(file="Image_Folder/Main Image/Signmainpic.png").subsample(1,1)
     Photo_Sign_picture_label = Button(window, image= Sign_picture, text="Sign", relief="solid", bd=0, bg= "black", activebackground="white", height = 187, width = 280)
     Photo_Sign_picture_label.place(x=680, y=350)
-
+    
     ExitIcon_picture = PhotoImage(file="Image_Folder/Main Image/ExitIcon.png").subsample(4,4)
     Photo_ExitIcon_picture_label = Button(window, image= ExitIcon_picture, text="Sign", command = Exit, bd=0)
     Photo_ExitIcon_picture_label.place(x=1197, y=500)
