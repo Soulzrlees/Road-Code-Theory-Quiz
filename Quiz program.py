@@ -24,36 +24,28 @@ def main_interface():
     #Creating main interface labels for each different categories
     def main_interface_label():
         global Timelimit_OnorOff, main_interface_frame
-        Behavior_Label = Label(main_interface_frame, text="Behavior", height= 2, width=18, bg = "black", fg= "white",
-                               font = mainfontstyle)
+        Behavior_Label = Label(main_interface_frame, text="Behavior", height= 2, width=18, bg = "black", fg= "white", font = mainfontstyle)
         Behavior_Label.place(x=60, y=220)
 
-        Emergencies_Label = Label(main_interface_frame, text=" Emergencies", height= 2, width=20, bg = "black", fg= "white",
-                                  font = mainfontstyle)
+        Emergencies_Label = Label(main_interface_frame, text=" Emergencies", height= 2, width=20, bg = "black", fg= "white", font = mainfontstyle)
         Emergencies_Label.place(x=370, y=220)
 
-        Intersection_Label = Label(main_interface_frame, text="Intersection", height= 2, width=20, bg = "black", fg= "white",
-                                   font = mainfontstyle)
+        Intersection_Label = Label(main_interface_frame, text="Intersection", height= 2, width=20, bg = "black", fg= "white", font = mainfontstyle)
         Intersection_Label.place(x=680, y=220)
 
-        Parking_Label = Label(main_interface_frame, text="Parking", height= 2, width=20, bg = "black", fg= "white",
-                              font = mainfontstyle)
+        Parking_Label = Label(main_interface_frame, text="Parking", height= 2, width=20, bg = "black", fg= "white", font = mainfontstyle)
         Parking_Label.place(x=60, y=500)
 
-        Road_Positions_Label = Label(main_interface_frame, text="Road Positions", height= 2, width=20, bg = "black", fg= "white",
-                                     font = mainfontstyle)
+        Road_Positions_Label = Label(main_interface_frame, text="Road Positions", height= 2, width=20, bg = "black", fg= "white", font = mainfontstyle)
         Road_Positions_Label.place(x=370, y=500)
 
-        Sign_label = Label(main_interface_frame, text="Sign", height= 2, width=20, bg = "black", fg= "white",
-                           font = mainfontstyle)
+        Sign_label = Label(main_interface_frame, text="Sign", height= 2, width=20, bg = "black", fg= "white",font = mainfontstyle)
         Sign_label.place(x=680, y=500)
 
-        Timelimit_OnorOff = Button(main_interface_frame, text="Time limit\n On / Off", height=5, width=20, bg="red", fg="white",
-                                   font=mainfontstyle, bd=0, command=Timelimit_activation)
+        Timelimit_OnorOff = Button(main_interface_frame, text="Time limit\n In minutes\n On / Off", height=5, width=20, bg="red", fg="white", font=mainfontstyle, bd=0, command=Timelimit_activation)
         Timelimit_OnorOff.place(x=1160, y=120)
 
-        RandomQuestions = Button(main_interface_frame, text="Confirm number of\nRandomized Questions", height= 5, width=20, bg = "black", fg= "white",
-                                 font = mainfontstyle, command=clear_frame, bd=0)
+        RandomQuestions = Button(main_interface_frame, text="Confirm number of\nRandomized Questions", height= 5, width=20, bg = "black", fg= "white", font = mainfontstyle, command=clear_frame, bd=0)
         RandomQuestions.place(x=1160, y=330)
         #Spinkbox for the user to select number of question from 15 to 30 randomize questions
         randomquestion_spinbox = Spinbox(main_interface_frame, from_=10, to=35, font = mainfontstyle, bd= 10)
