@@ -16,7 +16,7 @@ def clear_frame():
         widget.destroy()
 #_____________________________________________________________Main Interface_________________________________________________________
 def main_interface():
-    global main_interface_frame
+    global main_interface_frame,  mainfontstyle
     mainfontstyle = ("Helvetica", 10, "bold")
     main_interface_frame = Frame(window)
     main_interface_frame.pack(fill=BOTH, expand=True)
@@ -73,9 +73,9 @@ def main_interface():
 
     #Creating main interface image (that acts as a button) for each different categories
     def main_interface_image():
-        global behavior_picture, main_interface_frame, Emergency_picture, Parking_picture, Intersection_picture, Road_Position_picture, Sign_picture, ExitIcon_picture
+        global behavior_picture, main_interface_frame, Emergency_picture, Parking_picture, Intersection_picture, Road_Position_picture, Sign_picture, ExitIcon_picture, question_interface
         behavior_picture = PhotoImage(file="Image_Folder/Main Image/Behaviormainpic.png").subsample(1,1)
-        Photo_behavior_picture_label = Button(main_interface_frame, image= behavior_picture, text="Behavior", relief="solid", bd=0, bg = "black", activebackground="white", height = 187, width = 280, command=clear_frame)
+        Photo_behavior_picture_label = Button(main_interface_frame, image= behavior_picture, text="Behavior", relief="solid", bd=0, bg = "black", activebackground="white", height = 187, width = 280, command=button_activation)
         Photo_behavior_picture_label.place(x=60, y=70)
 
         Emergency_picture = PhotoImage(file="Image_Folder/Main Image/Emergencymainpic.png").subsample(1,1)
@@ -99,11 +99,16 @@ def main_interface():
         Photo_Sign_picture_label.place(x=680, y=350)
 
         ExitIcon_picture = PhotoImage(file="Image_Folder/Main Image/ExitIcon.png").subsample(4,4)
-        Photo_ExitIcon_picture_label = Button(main_interface_frame, image= ExitIcon_picture, text="Sign", command = Exit, bd=0)
+        Photo_ExitIcon_picture_label = Button(main_interface_frame, image= ExitIcon_picture, text="Sign", command = main_exit, bd=0)
         Photo_ExitIcon_picture_label.place(x=1197, y=500)
+    
+    #This functions allows to store 2 functions so that when this function is called 2 functions in it will be called
+    def button_activation():
+        clear_frame()
+        question_interface()
 
     #Exit interface once exit icon has clicked (it asks user if there are sure)
-    def Exit():
+    def main_exit():
         global window, status
         status = messagebox.askyesno(title = "", message = "Are you sure?")
         if status == True:
@@ -117,11 +122,34 @@ def main_interface():
 
 #___________________________________________________Question Interface____________________________________________________
 def question_interface():
-    pass
+    global TotalbehaviourQ, question_interface, window,  mainfontstyle
+    quiz_interface_frame = Frame(window)
+    quiz_interface_frame.pack(fill=BOTH, expand=True)
+
+    # Button for the quiz_interface
+    def quiz_interface_button():
+        choice_button1 = Button(quiz_interface_frame, text="Button1", height= 7, width=40, bg = "black", fg= "white", font = mainfontstyle, bd=0)
+        choice_button1.place(x=230, y=20)
+
+        choice_button2 = Button(quiz_interface_frame, text="Button2", height= 7, width=40, bg = "black", fg= "white", font = mainfontstyle, bd=0)
+        choice_button2.place(x=230, y=185)
+
+        choice_button3 = Button(quiz_interface_frame, text="Button3", height= 7, width=40, bg = "black", fg= "white", font = mainfontstyle, bd=0)
+        choice_button3.place(x=800, y=20)
+
+        choice_button4 = Button(quiz_interface_frame, text="Button4", height= 7, width=40, bg = "black", fg= "white", font = mainfontstyle, bd=0)
+        choice_button4.place(x=800, y=185)
+    # Labels for the quiz_interface
+    def quiz_interface_label():
+        numberofquestion = Label(main_interface_frame, text= "Q", height= 3, width=6, bg = "black", fg= "white", font = mainfontstyle)
+        numberofquestion.place(x=10, y=10)
+
+    quiz_interface_label()
+    quiz_interface_button()
 
 #Main function to create a window
 def Main():
-    global window, main_interface_frame
+    global window, main_interface_frame, quiz_interface_frame, question_interface
     window = Tk()
     window.title("Road Code Quiz")
     window.geometry("1350x679")
