@@ -2,6 +2,13 @@ from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
 
+from Behaviour import *
+from Emergencies import *
+from Intersections import *
+from Parking import *
+from RoadPositions import *
+from Sign import *
+
 # This function is to delete all widgets in main interface frame so that the question frame could replace it
 def clear_frame():
     global main_interface_frame
@@ -55,7 +62,7 @@ def main_interface():
         Timelimit_spinbox.place(x=1160, y=100)
 
     def Timelimit_activation():
-        global Timelimit_OnorOff
+        global Timelimit_5OnorOff
         #Check the current background color of Timelimit_OnorOff
         current_bg = Timelimit_OnorOff.cget("bg")
         # Toggle the background color
@@ -107,6 +114,10 @@ def main_interface():
     background_image()
     main_interface_image()
     main_interface_label()
+
+#___________________________________________________Question Interface____________________________________________________
+def question_interface():
+    pass
 
 #Main function to create a window
 def Main():
