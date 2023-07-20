@@ -9,6 +9,7 @@ from Parking import *
 from RoadPositions import *
 from Sign import *
 
+
 # This function is to delete all widgets in main interface frame so that the question frame could replace it
 def clear_frame():
     global main_interface_frame
@@ -62,7 +63,7 @@ def main_interface():
         Timelimit_spinbox.place(x=1160, y=100)
 
     def Timelimit_activation():
-        global Timelimit_5OnorOff
+        global Timelimit_OnorOff
         #Check the current background color of Timelimit_OnorOff
         current_bg = Timelimit_OnorOff.cget("bg")
         # Toggle the background color
@@ -139,6 +140,7 @@ def question_interface():
 
         choice_button4 = Button(quiz_interface_frame, text="Button4", height= 7, width=40, bg = "black", fg= "white", font = mainfontstyle, bd=0)
         choice_button4.place(x=800, y=185)
+        
     # Labels for the quiz_interface
     def quiz_interface_label():
         numberofquestion = Label(main_interface_frame, text= "Q", height= 3, width=6, bg = "black", fg= "white", font = mainfontstyle)
