@@ -10,9 +10,8 @@ from Parking import *
 from RoadPositions import *
 from Sign import *
 
-
 # This function is to delete all widgets in main interface frame so that the question frame could replace it
-def clear_frame():
+def clear_main_interface_frame():
     global main_interface_frame
     for widget in main_interface_frame.winfo_children():
         widget.destroy()
@@ -55,7 +54,7 @@ def main_interface():
         Timelimit_OnorOff = Button(main_interface_frame, text="Time limit\n In minutes\n On / Off", height=5, width=20, bg="red", fg="white", font=mainfontstyle, bd=0, command=Timelimit_activation)
         Timelimit_OnorOff.place(x=1160, y=120)
 
-        RandomQuestions = Button(main_interface_frame, text="Confirm number of\nRandomized Questions", height= 5, width=20, bg = "black", fg= "white", font = mainfontstyle, command=clear_frame, bd=0)
+        RandomQuestions = Button(main_interface_frame, text="Confirm number of\nRandomized Questions", height= 5, width=20, bg = "black", fg= "white", font = mainfontstyle, command=clear_main_interface_frame, bd=0)
         RandomQuestions.place(x=1160, y=330)
         #Spinkbox for the user to select number of question from 15 to 30 randomize questions
         randomquestion_spinbox = Spinbox(main_interface_frame, from_=10, to=35, font = mainfontstyle, bd= 10)
@@ -78,37 +77,69 @@ def main_interface():
     def main_interface_image():
         global behavior_picture, main_interface_frame, Emergency_picture, Parking_picture, Intersection_picture, Road_Position_picture, Sign_picture, ExitIcon_picture, question_interface
         behavior_picture = PhotoImage(file="Image_Folder/Main Image/Behaviormainpic.png").subsample(1,1)
-        Photo_behavior_picture_label = Button(main_interface_frame, image= behavior_picture, text="Behavior", relief="solid", bd=0, bg = "black", activebackground="white", height = 187, width = 280, command=button_activation)
+        Photo_behavior_picture_label = Button(main_interface_frame, image= behavior_picture, text="Behavior", relief="solid", bd=0, bg = "black", activebackground="white", height = 187, width = 280, command = Behavior_activation)
         Photo_behavior_picture_label.place(x=60, y=70)
 
         Emergency_picture = PhotoImage(file="Image_Folder/Main Image/Emergencymainpic.png").subsample(1,1)
-        Photo_Emergency_picture_label = Button(main_interface_frame, image= Emergency_picture, text="Emergency", relief="solid", bd=0, bg= "black", activebackground="white", height = 187, width = 280, command=button_activation)
+        Photo_Emergency_picture_label = Button(main_interface_frame, image= Emergency_picture, text="Emergency", relief="solid", bd=0, bg= "black", activebackground="white", height = 187, width = 280, command = Emergencies_activation)
         Photo_Emergency_picture_label.place(x=370, y=70)
 
         Intersection_picture = PhotoImage(file="Image_Folder/Main Image/Intersectionmainpic.png").subsample(1,1)
-        Photo_Intersection_picture_label = Button(main_interface_frame, image= Intersection_picture, text="Intersection", relief="solid", bd=0, bg= "black", activebackground="white", height = 187, width = 280, command=button_activation)
+        Photo_Intersection_picture_label = Button(main_interface_frame, image= Intersection_picture, text="Intersection", relief="solid", bd=0, bg= "black", activebackground="white", height = 187, width = 280, command = Intersections_activation)
         Photo_Intersection_picture_label.place(x=680, y=70)
 
         Parking_picture = PhotoImage(file="Image_Folder/Main Image/Parkingmainpic.png").subsample(1,1)
-        Photo_Parking_picture_label = Button(main_interface_frame, image= Parking_picture, text="Parking", relief="solid", bg= "black", bd=0, activebackground="white", height = 187, width = 280, command=button_activation)
+        Photo_Parking_picture_label = Button(main_interface_frame, image= Parking_picture, text="Parking", relief="solid", bg= "black", bd=0, activebackground="white", height = 187, width = 280, command = Parking_activation)
         Photo_Parking_picture_label.place(x=60, y=350)
 
         Road_Position_picture = PhotoImage(file="Image_Folder/Main Image/Road_Positionmainpic.png").subsample(1,1)
-        Photo_Road_Position_picture_label = Button(main_interface_frame, image= Road_Position_picture, text="Road_position", relief="solid", bd=0, bg= "black", activebackground="white", height = 187, width = 280, command=button_activation)
+        Photo_Road_Position_picture_label = Button(main_interface_frame, image= Road_Position_picture, text="Road_position", relief="solid", bd=0, bg= "black", activebackground="white", height = 187, width = 280, command = RoadPositions_activation)
         Photo_Road_Position_picture_label.place(x=370, y=350)
 
         Sign_picture = PhotoImage(file="Image_Folder/Main Image/Signmainpic.png").subsample(1,1)
-        Photo_Sign_picture_label = Button(main_interface_frame, image= Sign_picture, text="Sign", relief="solid", bd=0, bg= "black", activebackground="white", height = 187, width = 280, command=button_activation)
+        Photo_Sign_picture_label = Button(main_interface_frame, image= Sign_picture, text="Sign", relief="solid", bd=0, bg= "black", activebackground="white", height = 187, width = 280, command = Sign_activation)
         Photo_Sign_picture_label.place(x=680, y=350)
 
         ExitIcon_picture = PhotoImage(file="Image_Folder/Main Image/ExitIcon.png").subsample(4,4)
         Photo_ExitIcon_picture_label = Button(main_interface_frame, image= ExitIcon_picture, text="Sign", command = main_exit, bd=0)
         Photo_ExitIcon_picture_label.place(x=1197, y=500)
+
+    #When button of any category is clicked the frame clear function activates, question interface activates and the listvariable gets replaced
+    def Behavior_activation():
+        global listvariable
+        clear_main_interface_frame()
+        listvariable = QBlist
+        question_interface(listvariable)
+
+    def Emergencies_activation():
+        global listvariable
+        clear_main_interface_frame()
+        listvariable = QElist
+        question_interface(listvariable)
     
-    #This functions allows to store 2 functions so that when this function is called 2 functions in it will be called
-    def button_activation():
-        clear_frame()
-        question_interface()
+    def Intersections_activation():
+        global listvariable
+        clear_main_interface_frame()
+        listvariable = QIlist
+        question_interface(listvariable)
+
+    def Parking_activation():
+        global listvariable
+        clear_main_interface_frame()
+        listvariable = QPlist
+        question_interface(listvariable)
+    
+    def RoadPositions_activation():
+        global listvariable
+        clear_main_interface_frame()
+        listvariable = QRlist
+        question_interface(listvariable)
+    
+    def Sign_activation():
+        global listvariable
+        clear_main_interface_frame()
+        listvariable = QSlist
+        question_interface(listvariable)
 
     #Exit interface once exit icon has clicked (it asks user if there are sure)
     def main_exit():
@@ -140,36 +171,45 @@ Total_list = [Q1B, Q2B, Q3B, Q4B, Q5B, Q6B, Q7B, Q8B, Q9B, Q10B,
             Q1R, Q2R, Q3R, Q4R, Q5R, Q6R, Q7R, Q8R, Q9R, Q10R,
             Q1S, Q2S, Q3S, Q4S, Q5S, Q6S, Q7S, Q8S, Q9S, Q10S]
 
-def question_interface():
-    global TotalbehaviourQ, question_interface, window,  mainfontstyle, question_list, random_question_generator, random_question_generated
+Questionnum = 1
+
+# Destroys the quiz_interface_frame once it is called
+def clear_quiz_interface_frame():
+    global quiz_interface_frame
+    for widget in quiz_interface_frame.winfo_children():
+        widget.destroy()
+        quiz_interface_frame.destroy()
+
+# main question_interface function contains nessary variables to randomized each list of questions
+def question_interface(category_list):
+    global TotalbehaviourQ, quiz_interface_frame, window,  mainfontstyle, question_list, random_question_generator, random_question_generated, Questionnum
     quiz_interface_frame = Frame(window)
     quiz_interface_frame.pack(fill=BOTH, expand=True)
     random_question_generator = random.randint(0, 9)
-    random_question_generated = [random_question_generator]
-    print(random_question_generated)
-    question_list = list(QBlist[random_question_generator].values())
+    print(random_question_generator)
+    question_list = list(category_list[random_question_generator].values())
 
-    
+
     # Button for the quiz_interface
     def quiz_interface_button():
         global question_list
         try:    
-            choice_button1 = Button(quiz_interface_frame, text=(question_list[1][0]), height= 7, width=40, bg = "black", fg= "white", font = mainfontstyle, bd=0)
+            choice_button1 = Button(quiz_interface_frame, text=(question_list[1][0]), height= 7, width=40, bg = "black", fg= "white", font = mainfontstyle, bd=0, command = quiz_interface_next_question)
             choice_button1.place(x=50, y=400)
 
-            choice_button2 = Button(quiz_interface_frame, text=(question_list[1][1]), height= 7, width=40, bg = "black", fg= "white", font = mainfontstyle, bd=0)
+            choice_button2 = Button(quiz_interface_frame, text=(question_list[1][1]), height= 7, width=40, bg = "black", fg= "white", font = mainfontstyle, bd=0, command = quiz_interface_next_question)
             choice_button2.place(x=970, y=400)
 
-            choice_button3 = Button(quiz_interface_frame, text=(question_list[1][2]), height= 7, width=40, bg = "black", fg= "white", font = mainfontstyle, bd=0)
+            choice_button3 = Button(quiz_interface_frame, text=(question_list[1][2]), height= 7, width=40, bg = "black", fg= "white", font = mainfontstyle, bd=0, command = quiz_interface_next_question)
             choice_button3.place(x=50, y=540)
 
-            choice_button4 = Button(quiz_interface_frame, text=(question_list[1][3]), height= 7, width=40, bg = "black", fg= "white", font = mainfontstyle, bd=0)
+            choice_button4 = Button(quiz_interface_frame, text=(question_list[1][3]), height= 7, width=40, bg = "black", fg= "white", font = mainfontstyle, bd=0, command = quiz_interface_next_question)
             choice_button4.place(x=970, y=540)
         except:
-            choice_button1 = Button(quiz_interface_frame, text=(question_list[1][0]), height= 11, width=40, bg = "black", fg= "white", font = mainfontstyle, bd=0)
+            choice_button1 = Button(quiz_interface_frame, text=(question_list[1][0]), height= 11, width=40, bg = "black", fg= "white", font = mainfontstyle, bd=0, command = quiz_interface_next_question)
             choice_button1.place(x=50, y=400)
 
-            choice_button2 = Button(quiz_interface_frame, text=(question_list[1][1]), height= 11, width=40, bg = "black", fg= "white", font = mainfontstyle, bd=0)
+            choice_button2 = Button(quiz_interface_frame, text=(question_list[1][1]), height= 11, width=40, bg = "black", fg= "white", font = mainfontstyle, bd=0, command = quiz_interface_next_question)
             choice_button2.place(x=970, y=400)
 
     
@@ -187,18 +227,28 @@ def question_interface():
             
     # Labels for the quiz_interface
     def quiz_interface_label():
-        numberofquestion = Label(quiz_interface_frame, text= "Q", height= 3, width=6, bg = "black", fg= "white", font = mainfontstyle)
+        global Questionnum
+        numberofquestion = Label(quiz_interface_frame, text= ("Q", Questionnum), height= 3, width=6, bg = "black", fg= "white", font = mainfontstyle)
         numberofquestion.place(x=10, y=10)
         question_label = Label(quiz_interface_frame, text=(question_list[0]), height= 4, width=60, bg = "black", fg= "white", font = mainfontstyle)
         question_label.place(x=430, y=20)
+
+    #function for switching to the next questions once button a button is clicked on the previous question
+    def quiz_interface_next_question():
+        global Questionnum, clear_quiz_interface_frame, quiz_interface_frame
+        Questionnum = Questionnum + 1
+        print(Questionnum)
+        clear_quiz_interface_frame()
+        question_interface(listvariable)
 
     quiz_interface_label()
     quiz_interface_button()
     quiz_interface_image()
 
+
 #Main function to create a window
 def Main():
-    global window, main_interface_frame, quiz_interface_frame, question_interface, question_image
+    global window, main_interface_frame, quiz_interface_frame, question_interface, question_image, listvariable
     window = Tk()
     window.title("Road Code Quiz")
     window.geometry("1350x679")
