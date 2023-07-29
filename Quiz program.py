@@ -221,7 +221,6 @@ def question_interface(category_list):
         random_question_generator.append(i)
 
     random.shuffle(random_question_generator)
-    print(random_question_generator)
 
     i=-1
     #Background of the quiz interface frame
@@ -233,7 +232,7 @@ def question_interface(category_list):
 
     #This functions contains the nessary componets the quiz interface such as button, image, label, progress bar, checking input
     def questions():
-        global TotalbehaviourQ, quiz_interface_frame, window,  mainfontstyle, question_list, random_question_generator, random_question_generated, Questionnum, i, question_list, numbercorrect, numberincorrect, questions_incorrect, questions_correct, randomquestion_spinbox, questionlength
+        global TotalbehaviourQ, quiz_interface_frame, window,  mainfontstyle, question_list, random_question_generator, random_question_generated, Questionnum, i, question_list, numbercorrect, numberincorrect, questions_incorrect, questions_correct, randomquestion_spinbox, questionlength, randombuttonplacement1
         global i, question_list
         i += 1
 
@@ -241,29 +240,41 @@ def question_interface(category_list):
         quiz_interface_frame.pack(fill=BOTH, expand=True)
 
         question_list = list(category_list[random_question_generator[i]].values())
+        #Randomizing position of choice buttons
+        position1 = {'x': 50, 'y': 400}
+        position2 = {'x': 970, 'y': 400}
+        position3 = {'x': 50, 'y': 540}
+        position4 = {'x': 970, 'y': 540}
+        randombuttonplacement1 = [position1, position2, position3, position4]
+        random.shuffle(randombuttonplacement1)
 
-
-        # Button for the quiz_interface
+        #Button for the quiz_interface
         def quiz_interface_button():
-            global question_list, randomquestion_spinbox
+            global question_list, randombuttonplacement1
             try:    
-                choice_button1 = Button(quiz_interface_frame, text=(question_list[1][0]), height= 7, width=40, bg = "black", fg= "white", font = mainfontstyle, bd=0, command = Correct_check_B1)
-                choice_button1.place(x=50, y=400)
+                if len(question_list[1]) == 4:
+                    choice_button1 = Button(quiz_interface_frame, text=question_list[1][0], height=7, width=40, bg="black", fg="white", font=mainfontstyle, bd=0, command=Correct_check_B1)
+                    choice_button1.place(x=randombuttonplacement1[0]['x'], y=randombuttonplacement1[0]['y'])
 
-                choice_button2 = Button(quiz_interface_frame, text=(question_list[1][1]), height= 7, width=40, bg = "black", fg= "white", font = mainfontstyle, bd=0, command = Correct_check_B2)
-                choice_button2.place(x=970, y=400)
+                    choice_button2 = Button(quiz_interface_frame, text=question_list[1][1], height=7, width=40, bg="black", fg="white", font=mainfontstyle, bd=0, command=Correct_check_B2)
+                    choice_button2.place(x=randombuttonplacement1[1]['x'], y=randombuttonplacement1[1]['y'])
 
-                choice_button3 = Button(quiz_interface_frame, text=(question_list[1][2]), height= 7, width=40, bg = "black", fg= "white", font = mainfontstyle, bd=0, command = Correct_check_B3)
-                choice_button3.place(x=50, y=540)
+                    choice_button3 = Button(quiz_interface_frame, text=question_list[1][2], height=7, width=40, bg="black", fg="white", font=mainfontstyle, bd=0, command=Correct_check_B3)
+                    choice_button3.place(x=randombuttonplacement1[2]['x'], y=randombuttonplacement1[2]['y'])
 
-                choice_button4 = Button(quiz_interface_frame, text=(question_list[1][3]), height= 7, width=40, bg = "black", fg= "white", font = mainfontstyle, bd=0, command = Correct_check_B4)
-                choice_button4.place(x=970, y=540)
+                    choice_button4 = Button(quiz_interface_frame, text=question_list[1][3], height=7, width=40, bg="black", fg="white", font=mainfontstyle, bd=0, command=Correct_check_B4)
+                    choice_button4.place(x=randombuttonplacement1[3]['x'], y=randombuttonplacement1[3]['y'])
+
+                if len(question_list[1]) == 2:
+                    choice_button1 = Button(quiz_interface_frame, text=question_list[1][0], height=9, width=40, bg="black", fg="white", font=mainfontstyle, bd=0, command=Correct_check_B1)
+                    choice_button1.place(x=50, y=400)
+
+                    choice_button2 = Button(quiz_interface_frame, text=question_list[1][1], height=9, width=40, bg="black", fg="white", font=mainfontstyle, bd=0, command=Correct_check_B2)
+                    choice_button2.place(x=970, y=400)
+
             except:
-                choice_button1 = Button(quiz_interface_frame, text=(question_list[1][0]), height= 11, width=40, bg = "black", fg= "white", font = mainfontstyle, bd=0, command = Correct_check_B1)
-                choice_button1.place(x=50, y=400)
+                pass
 
-                choice_button2 = Button(quiz_interface_frame, text=(question_list[1][1]), height= 11, width=40, bg = "black", fg= "white", font = mainfontstyle, bd=0, command = Correct_check_B2)
-                choice_button2.place(x=970, y=400)
         
         #Checks if the selected button is correct
         def Correct_check_B1():
