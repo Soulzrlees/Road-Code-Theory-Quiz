@@ -18,6 +18,23 @@ def clear_main_interface_frame():
     for widget in main_interface_frame.winfo_children():
         widget.destroy() 
         main_interface_frame.destroy()
+
+#Exit interface once exit icon has clicked (it asks user if there are sure)
+def Exit():
+    global window, status
+    status = messagebox.askyesno(title = "", message = "Are you sure?")
+    if status == True:
+        window.destroy()
+    else:
+        pass
+
+#Return to main interface once return icon is clicked
+def Return():
+    for widget in quiz_interface_frame.winfo_children():
+        widget.destroy()
+        quiz_interface_frame.destroy()
+    main_interface()
+
 #_____________________________________________________________Main Interface_________________________________________________________
 def main_interface():
     global main_interface_frame,  mainfontstyle, Total_list
@@ -103,8 +120,8 @@ def main_interface():
         Photo_Sign_picture_label = Button(main_interface_frame, image= Sign_picture, text="Sign", relief="solid", bd=0, bg= "black", activebackground="white", height = 187, width = 280, command = Sign_activation)
         Photo_Sign_picture_label.place(x=680, y=350)
 
-        ExitIcon_picture = PhotoImage(file="Image_Folder/Main Image/ExitIcon.png").subsample(4,4)
-        Photo_ExitIcon_picture_label = Button(main_interface_frame, image= ExitIcon_picture, text="Sign", command = main_exit, bd=0)
+        ExitIcon_picture = PhotoImage(file="Image_Folder/Main Image/ExitIcon.png").subsample(3,3)
+        Photo_ExitIcon_picture_label = Button(main_interface_frame, image= ExitIcon_picture, text="Sign", command = Exit, bd=0, bg = "white")
         Photo_ExitIcon_picture_label.place(x=1197, y=500)
 
     #When button of any category is clicked the frame clear function activates, question interface activates and the listvariable gets replaced
@@ -158,15 +175,6 @@ def main_interface():
         listvariable = Total_list
         question_interface(listvariable)
 
-    #Exit interface once exit icon has clicked (it asks user if there are sure)
-    def main_exit():
-        global window, status
-        status = messagebox.askyesno(title = "", message = "Are you sure?")
-        if status == True:
-            window.destroy()
-        else:
-            pass
-
     background_image()
     main_interface_image()
     main_interface_label()
@@ -196,6 +204,7 @@ def clear_quiz_interface_frame():
     for widget in quiz_interface_frame.winfo_children():
         widget.destroy()
         quiz_interface_frame.destroy()
+        main_interface()
 
 # main question_interface function contains nessary variables to randomized each list of questions
 def question_interface(category_list):
@@ -331,11 +340,15 @@ def question_interface(category_list):
                 
         # Labels for the quiz_interface
         def quiz_interface_label():
-            global Questionnum
+            global Questionnum, ExitIcon_picture, Return, Photo_ReturnIcon_picture
             numberofquestion = Label(quiz_interface_frame, text= ("Q", Questionnum), height= 3, width=6, bg = "black", fg= "white", font = mainfontstyle)
             numberofquestion.place(x=10, y=10)
             question_label = Label(quiz_interface_frame, text=(question_list[0]), height= 4, width=60, bg = "black", fg= "white", font = mainfontstyle)
             question_label.place(x=430, y=20)
+            #Exit Icon for the question interface
+            Photo_ReturnIcon_picture = PhotoImage(file="Image_Folder/Main Image/ReturnIcon.png").subsample(3,3)
+            Photo_ReturnIcon_picture_label_question = Button(quiz_interface_frame, image= Photo_ReturnIcon_picture, command = Return, bd=0, bg="white")
+            Photo_ReturnIcon_picture_label_question.place(x=630, y=500)
         
         # Progress bar on the quiz interface to display visual how many questions are left
         def quiz_interface_progressbar():
