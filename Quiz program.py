@@ -30,9 +30,11 @@ def Exit():
 
 #Return to main interface once return icon is clicked
 def Return():
+    global Questionnum
     for widget in quiz_interface_frame.winfo_children():
         widget.destroy()
         quiz_interface_frame.destroy()
+    Questionnum = 1
     main_interface()
 
 #_____________________________________________________________Main Interface_________________________________________________________
