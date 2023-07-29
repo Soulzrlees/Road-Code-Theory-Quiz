@@ -1,6 +1,8 @@
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
+from tkinter import ttk
+import time
 import random
 
 from Behaviour import *
@@ -334,6 +336,13 @@ def question_interface(category_list):
             numberofquestion.place(x=10, y=10)
             question_label = Label(quiz_interface_frame, text=(question_list[0]), height= 4, width=60, bg = "black", fg= "white", font = mainfontstyle)
             question_label.place(x=430, y=20)
+        
+        # Progress bar on the quiz interface to display visual how many questions are left
+        def quiz_interface_progressbar():
+            global quiz_interface_frame, Questionnum, questionlength
+            progressbar = ttk.Progressbar(quiz_interface_frame, orient=HORIZONTAL, length=400, mode='determinate', maximum=questionlength, value=Questionnum)
+            progressbar.place(x=475, y=410)
+
 
         #function for switching to the next questions once button a button is clicked on the previous question
         def quiz_interface_next_question():
@@ -355,6 +364,7 @@ def question_interface(category_list):
         quiz_interface_label()
         quiz_interface_button()
         quiz_interface_image()
+        quiz_interface_progressbar()
     questions()
     
 
