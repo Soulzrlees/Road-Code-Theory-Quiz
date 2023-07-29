@@ -44,11 +44,11 @@ def main_interface():
     random.shuffle(Total_list)
 
     #Background image of main interface
-    def background_image():
-        global window, bg, main_interface_frame
-        bg = PhotoImage(file="Image_Folder/Main Image/mainbackground.png")
-        background_image = Label(main_interface_frame, image=bg)
-        background_image.place(x=0, y=0, relwidth=1, relheight=1)
+    def background_image_main():
+        global window, bgm, main_interface_frame
+        bgm = PhotoImage(file="Image_Folder/Main Image/mainbackground.png")
+        background_image_main = Label(main_interface_frame, image=bgm)
+        background_image_main.place(x=0, y=0, relwidth=1, relheight=1)
 
     #Creating main interface labels for each different categories
     def main_interface_label():
@@ -175,7 +175,7 @@ def main_interface():
         listvariable = Total_list
         question_interface(listvariable)
 
-    background_image()
+    background_image_main()
     main_interface_image()
     main_interface_label()
 
@@ -224,6 +224,14 @@ def question_interface(category_list):
     print(random_question_generator)
 
     i=-1
+    #Background of the quiz interface frame
+    def background_image_question():
+        global window, bgq, quiz_interface_frame
+        bgq = PhotoImage(file="Image_Folder/Main Image/questionbackground.png")
+        background_image_question = Label(quiz_interface_frame, image=bgq)
+        background_image_question.place(x=0, y=0, relwidth=1, relheight=1)
+
+    #This functions contains the nessary componets the quiz interface such as button, image, label, progress bar, checking input
     def questions():
         global TotalbehaviourQ, quiz_interface_frame, window,  mainfontstyle, question_list, random_question_generator, random_question_generated, Questionnum, i, question_list, numbercorrect, numberincorrect, questions_incorrect, questions_correct, randomquestion_spinbox, questionlength
         global i, question_list
@@ -341,10 +349,10 @@ def question_interface(category_list):
         # Labels for the quiz_interface
         def quiz_interface_label():
             global Questionnum, ExitIcon_picture, Return, Photo_ReturnIcon_picture
-            numberofquestion = Label(quiz_interface_frame, text= ("Q", Questionnum), height= 3, width=6, bg = "black", fg= "white", font = mainfontstyle)
-            numberofquestion.place(x=10, y=10)
+            numberofquestion = Label(quiz_interface_frame, text= ("Q", Questionnum), height= 4, width=6, bg = "black", fg= "white", font = mainfontstyle)
+            numberofquestion.place(x=10, y=13)
             question_label = Label(quiz_interface_frame, text=(question_list[0]), height= 4, width=60, bg = "black", fg= "white", font = mainfontstyle)
-            question_label.place(x=430, y=20)
+            question_label.place(x=430, y=13)
             #Exit Icon for the question interface
             Photo_ReturnIcon_picture = PhotoImage(file="Image_Folder/Main Image/ReturnIcon.png").subsample(3,3)
             Photo_ReturnIcon_picture_label_question = Button(quiz_interface_frame, image= Photo_ReturnIcon_picture, command = Return, bd=0, bg="white")
@@ -373,7 +381,7 @@ def question_interface(category_list):
                 main_interface()
             else: 
                 questions()
-
+        background_image_question()
         quiz_interface_label()
         quiz_interface_button()
         quiz_interface_image()
