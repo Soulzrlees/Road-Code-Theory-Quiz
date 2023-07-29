@@ -14,14 +14,15 @@ from Sign import *
 def clear_main_interface_frame():
     global main_interface_frame
     for widget in main_interface_frame.winfo_children():
-        widget.destroy()
+        widget.destroy() 
         main_interface_frame.destroy()
 #_____________________________________________________________Main Interface_________________________________________________________
 def main_interface():
-    global main_interface_frame,  mainfontstyle
+    global main_interface_frame,  mainfontstyle, Total_list
     mainfontstyle = ("Helvetica", 10, "bold")
     main_interface_frame = Frame(window)
     main_interface_frame.pack(fill=BOTH, expand=True)
+    random.shuffle(Total_list)
 
     #Background image of main interface
     def background_image():
@@ -32,7 +33,7 @@ def main_interface():
 
     #Creating main interface labels for each different categories
     def main_interface_label():
-        global Timelimit_OnorOff, main_interface_frame
+        global Timelimit_OnorOff, main_interface_frame, randomquestion_spinbox, questionlength
         Behavior_Label = Label(main_interface_frame, text="Behavior", height= 2, width=18, bg = "black", fg= "white", font = mainfontstyle)
         Behavior_Label.place(x=60, y=220)
 
@@ -54,13 +55,13 @@ def main_interface():
         Timelimit_OnorOff = Button(main_interface_frame, text="Time limit\n In minutes\n On / Off", height=5, width=20, bg="red", fg="white", font=mainfontstyle, bd=0, command=Timelimit_activation)
         Timelimit_OnorOff.place(x=1160, y=120)
 
-        RandomQuestions = Button(main_interface_frame, text="Confirm number of\nRandomized Questions", height= 5, width=20, bg = "black", fg= "white", font = mainfontstyle, command=clear_main_interface_frame, bd=0)
+        RandomQuestions = Button(main_interface_frame, text="Confirm number of\nRandomized Questions", height= 5, width=20, bg = "black", fg= "white", font = mainfontstyle, command=Random_Question_activation, bd=0)
         RandomQuestions.place(x=1160, y=330)
         #Spinkbox for the user to select number of question from 15 to 30 randomize questions
-        randomquestion_spinbox = Spinbox(main_interface_frame, from_=10, to=35, font = mainfontstyle, bd= 10)
+        randomquestion_spinbox = Spinbox(main_interface_frame, from_=10, to=35, font = mainfontstyle, bd= 10, state='readonly')
         randomquestion_spinbox.place(x=1160, y=300)
         #Spinkbox for timer from 10 min to 60 mins (default 60mins)
-        Timelimit_spinbox = Spinbox(main_interface_frame, from_=10, to=60, font = mainfontstyle, bd= 10)
+        Timelimit_spinbox = Spinbox(main_interface_frame, from_=10, to=60, font = mainfontstyle, bd= 10, state='readonly', increment=2)
         Timelimit_spinbox.place(x=1160, y=100)
 
     def Timelimit_activation():
@@ -75,7 +76,7 @@ def main_interface():
 
     #Creating main interface image (that acts as a button) for each different categories
     def main_interface_image():
-        global behavior_picture, main_interface_frame, Emergency_picture, Parking_picture, Intersection_picture, Road_Position_picture, Sign_picture, ExitIcon_picture, question_interface
+        global behavior_picture, main_interface_frame, Emergency_picture, Parking_picture, Intersection_picture, Road_Position_picture, Sign_picture, ExitIcon_picture, question_interface, randomquestion_spinbox
         behavior_picture = PhotoImage(file="Image_Folder/Main Image/Behaviormainpic.png").subsample(1,1)
         Photo_behavior_picture_label = Button(main_interface_frame, image= behavior_picture, text="Behavior", relief="solid", bd=0, bg = "black", activebackground="white", height = 187, width = 280, command = Behavior_activation)
         Photo_behavior_picture_label.place(x=60, y=70)
@@ -106,39 +107,53 @@ def main_interface():
 
     #When button of any category is clicked the frame clear function activates, question interface activates and the listvariable gets replaced
     def Behavior_activation():
-        global listvariable
+        global listvariable, questionlength
+        questionlength = 10
         clear_main_interface_frame()
         listvariable = QBlist
         question_interface(listvariable)
 
     def Emergencies_activation():
-        global listvariable
+        global listvariable, questionlength
+        questionlength = 10
         clear_main_interface_frame()
         listvariable = QElist
         question_interface(listvariable)
     
     def Intersections_activation():
-        global listvariable
+        global listvariable, questionlength
+        questionlength = 10
         clear_main_interface_frame()
         listvariable = QIlist
         question_interface(listvariable)
 
     def Parking_activation():
-        global listvariable
+        global listvariable, questionlength
+        questionlength = 10
         clear_main_interface_frame()
         listvariable = QPlist
         question_interface(listvariable)
     
     def RoadPositions_activation():
-        global listvariable
+        global listvariable, questionlength
+        questionlength = 10
         clear_main_interface_frame()
         listvariable = QRlist
         question_interface(listvariable)
     
     def Sign_activation():
-        global listvariable
+        global listvariable, questionlength
+        questionlength = 10
         clear_main_interface_frame()
         listvariable = QSlist
+        question_interface(listvariable)
+    
+    def Random_Question_activation():
+        global listvariable, questionlength, length, randomquestion_spinbox, Total_list
+        length = int(randomquestion_spinbox.get())
+        questionlength = length
+        clear_main_interface_frame()
+        listvariable = Total_list
         question_interface(listvariable)
 
     #Exit interface once exit icon has clicked (it asks user if there are sure)
@@ -182,68 +197,166 @@ def clear_quiz_interface_frame():
 
 # main question_interface function contains nessary variables to randomized each list of questions
 def question_interface(category_list):
-    global TotalbehaviourQ, quiz_interface_frame, window,  mainfontstyle, question_list, random_question_generator, random_question_generated, Questionnum
-    quiz_interface_frame = Frame(window)
-    quiz_interface_frame.pack(fill=BOTH, expand=True)
-    random_question_generator = random.randint(0, 9)
+    global TotalbehaviourQ, quiz_interface_frame, window,  mainfontstyle, question_list, random_question_generator, random_question_generated, i, questions_correct, questions_incorrect, numberincorrect, numbercorrect, randomquestion_spinbox, questionlength, Total_list
+
+    questions_correct = []
+    questions_incorrect = []
+    random_question_generator = []
+    numbercorrect = 0
+    numberincorrect = 0
+
+
+    for i in range (questionlength):
+        random_question_generator.append(i)
+
+    random.shuffle(random_question_generator)
     print(random_question_generator)
-    question_list = list(category_list[random_question_generator].values())
+
+    i=-1
+    def questions():
+        global TotalbehaviourQ, quiz_interface_frame, window,  mainfontstyle, question_list, random_question_generator, random_question_generated, Questionnum, i, question_list, numbercorrect, numberincorrect, questions_incorrect, questions_correct, randomquestion_spinbox, questionlength
+        global i, question_list
+        i += 1
+
+        quiz_interface_frame = Frame(window)
+        quiz_interface_frame.pack(fill=BOTH, expand=True)
+
+        question_list = list(category_list[random_question_generator[i]].values())
 
 
-    # Button for the quiz_interface
-    def quiz_interface_button():
-        global question_list
-        try:    
-            choice_button1 = Button(quiz_interface_frame, text=(question_list[1][0]), height= 7, width=40, bg = "black", fg= "white", font = mainfontstyle, bd=0, command = quiz_interface_next_question)
-            choice_button1.place(x=50, y=400)
+        # Button for the quiz_interface
+        def quiz_interface_button():
+            global question_list, randomquestion_spinbox
+            try:    
+                choice_button1 = Button(quiz_interface_frame, text=(question_list[1][0]), height= 7, width=40, bg = "black", fg= "white", font = mainfontstyle, bd=0, command = Correct_check_B1)
+                choice_button1.place(x=50, y=400)
 
-            choice_button2 = Button(quiz_interface_frame, text=(question_list[1][1]), height= 7, width=40, bg = "black", fg= "white", font = mainfontstyle, bd=0, command = quiz_interface_next_question)
-            choice_button2.place(x=970, y=400)
+                choice_button2 = Button(quiz_interface_frame, text=(question_list[1][1]), height= 7, width=40, bg = "black", fg= "white", font = mainfontstyle, bd=0, command = Correct_check_B2)
+                choice_button2.place(x=970, y=400)
 
-            choice_button3 = Button(quiz_interface_frame, text=(question_list[1][2]), height= 7, width=40, bg = "black", fg= "white", font = mainfontstyle, bd=0, command = quiz_interface_next_question)
-            choice_button3.place(x=50, y=540)
+                choice_button3 = Button(quiz_interface_frame, text=(question_list[1][2]), height= 7, width=40, bg = "black", fg= "white", font = mainfontstyle, bd=0, command = Correct_check_B3)
+                choice_button3.place(x=50, y=540)
 
-            choice_button4 = Button(quiz_interface_frame, text=(question_list[1][3]), height= 7, width=40, bg = "black", fg= "white", font = mainfontstyle, bd=0, command = quiz_interface_next_question)
-            choice_button4.place(x=970, y=540)
-        except:
-            choice_button1 = Button(quiz_interface_frame, text=(question_list[1][0]), height= 11, width=40, bg = "black", fg= "white", font = mainfontstyle, bd=0, command = quiz_interface_next_question)
-            choice_button1.place(x=50, y=400)
+                choice_button4 = Button(quiz_interface_frame, text=(question_list[1][3]), height= 7, width=40, bg = "black", fg= "white", font = mainfontstyle, bd=0, command = Correct_check_B4)
+                choice_button4.place(x=970, y=540)
+            except:
+                choice_button1 = Button(quiz_interface_frame, text=(question_list[1][0]), height= 11, width=40, bg = "black", fg= "white", font = mainfontstyle, bd=0, command = Correct_check_B1)
+                choice_button1.place(x=50, y=400)
 
-            choice_button2 = Button(quiz_interface_frame, text=(question_list[1][1]), height= 11, width=40, bg = "black", fg= "white", font = mainfontstyle, bd=0, command = quiz_interface_next_question)
-            choice_button2.place(x=970, y=400)
-
+                choice_button2 = Button(quiz_interface_frame, text=(question_list[1][1]), height= 11, width=40, bg = "black", fg= "white", font = mainfontstyle, bd=0, command = Correct_check_B2)
+                choice_button2.place(x=970, y=400)
+        
+        #Checks if the selected button is correct
+        def Correct_check_B1():
+            global question_list, numbercorrect, numberincorrect, questions_incorrect, questions_correct
+            if (question_list[1][0]) == (question_list[2]):
+                questions_correct.append(question_list[0])
+                numbercorrect = numbercorrect + 1
     
-    #Image of questions for the
-    def quiz_interface_image():
-        global question_image, question_list
-        try:
-            question_image = PhotoImage(file = (question_list[3]))
-            question_image_label = Label(quiz_interface_frame, image= question_image, relief="solid", bd=0, bg= "black")
-            question_image_label.place(x=400, y=100)
-        #If there are no pictures in the variable than the function is passed
-        except:
-            pass
+            if (question_list[1][0]) != (question_list[2]):
+                questions_incorrect.append(question_list[0])
+                numberincorrect = numberincorrect + 1
 
-            
-    # Labels for the quiz_interface
-    def quiz_interface_label():
-        global Questionnum
-        numberofquestion = Label(quiz_interface_frame, text= ("Q", Questionnum), height= 3, width=6, bg = "black", fg= "white", font = mainfontstyle)
-        numberofquestion.place(x=10, y=10)
-        question_label = Label(quiz_interface_frame, text=(question_list[0]), height= 4, width=60, bg = "black", fg= "white", font = mainfontstyle)
-        question_label.place(x=430, y=20)
+            quiz_interface_next_question()
 
-    #function for switching to the next questions once button a button is clicked on the previous question
-    def quiz_interface_next_question():
-        global Questionnum, clear_quiz_interface_frame, quiz_interface_frame
-        Questionnum = Questionnum + 1
-        print(Questionnum)
-        clear_quiz_interface_frame()
-        question_interface(listvariable)
+            print("Questions Correct: ", questions_correct)
+            print("Questions Incorrect: ", questions_incorrect)
+            print("Number of QCorrect: ", numbercorrect)
+            print("Number of QIncorrect: ", numberincorrect)
+        
+        def Correct_check_B2():
+            global question_list, numbercorrect, numberincorrect, questions_incorrect, questions_correct
+            if (question_list[1][1]) == (question_list[2]):
+                questions_correct.append(question_list[0])
+                numbercorrect = numbercorrect + 1
+    
+            if (question_list[1][1]) != (question_list[2]):
+                questions_incorrect.append(question_list[0])
+                numberincorrect = numberincorrect + 1
 
-    quiz_interface_label()
-    quiz_interface_button()
-    quiz_interface_image()
+            quiz_interface_next_question()
+
+            print("Questions Correct: ", questions_correct)
+            print("Questions Incorrect: ", questions_incorrect)
+            print("Number of QCorrect: ", numbercorrect)
+            print("Number of QIncorrect: ", numberincorrect)
+
+        def Correct_check_B3():
+            global question_list, numbercorrect, numberincorrect, questions_incorrect, questions_correct
+            if (question_list[1][2]) == (question_list[2]):
+                questions_correct.append(question_list[0])
+                numbercorrect = numbercorrect + 1
+    
+            if (question_list[1][2]) != (question_list[2]):
+                questions_incorrect.append(question_list[0])
+                numberincorrect = numberincorrect + 1
+                
+            quiz_interface_next_question()
+
+            print("Questions Correct: ", questions_correct)
+            print("Questions Incorrect: ", questions_incorrect)
+            print("Number of QCorrect: ", numbercorrect)
+            print("Number of QIncorrect: ", numberincorrect)
+
+        def Correct_check_B4():
+            global question_list, numbercorrect, numberincorrect, questions_incorrect, questions_correct
+            if (question_list[1][3]) == (question_list[2]):
+                questions_correct.append(question_list[0])
+                numbercorrect = numbercorrect + 1
+    
+            if (question_list[1][3]) != (question_list[2]):
+                questions_incorrect.append(question_list[0])
+                numberincorrect = numberincorrect + 1
+                
+            quiz_interface_next_question()
+
+            print("Questions Correct: ", questions_correct)
+            print("Questions Incorrect: ", questions_incorrect)
+            print("Number of QCorrect: ", numbercorrect)
+            print("Number of QIncorrect: ", numberincorrect)
+
+        #Image of questions for the
+        def quiz_interface_image():
+            global question_image, question_list
+            try:
+                question_image = PhotoImage(file = (question_list[3]))
+                question_image_label = Label(quiz_interface_frame, image= question_image, relief="solid", bd=0, bg= "black")
+                question_image_label.place(x=400, y=100)
+            #If there are no pictures in the variable than the function is passed
+            except:
+                pass
+
+                
+        # Labels for the quiz_interface
+        def quiz_interface_label():
+            global Questionnum
+            numberofquestion = Label(quiz_interface_frame, text= ("Q", Questionnum), height= 3, width=6, bg = "black", fg= "white", font = mainfontstyle)
+            numberofquestion.place(x=10, y=10)
+            question_label = Label(quiz_interface_frame, text=(question_list[0]), height= 4, width=60, bg = "black", fg= "white", font = mainfontstyle)
+            question_label.place(x=430, y=20)
+
+        #function for switching to the next questions once button a button is clicked on the previous question
+        def quiz_interface_next_question():
+            global Questionnum, clear_quiz_interface_frame, quiz_interface_frame, question_listquestion_list, numbercorrect, numberincorrect, questions_incorrect, questions_correct, randomquestion_spinbox, questionlength
+            Questionnum = Questionnum + 1
+
+            for widget in quiz_interface_frame.winfo_children():
+                widget.destroy()
+                quiz_interface_frame.destroy()
+
+            if i+1 == questionlength:
+                Questionnum = 1
+                questions_correct.clear()                                        
+                questions_incorrect.clear()
+                main_interface()
+            else: 
+                questions()
+
+        quiz_interface_label()
+        quiz_interface_button()
+        quiz_interface_image()
+    questions()
+    
 
 
 #Main function to create a window
