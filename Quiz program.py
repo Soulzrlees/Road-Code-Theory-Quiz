@@ -2,8 +2,12 @@ from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
 from tkinter import ttk
+from tkinter import font
 import time
 import random
+from matplotlib import pyplot as plt
+import numpy as np
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 from Behaviour import *
 from Emergencies import *
@@ -11,7 +15,7 @@ from Intersections import *
 from Parking import *
 from RoadPositions import *
 from Sign import *
-
+current_list = 0
 # This function is to delete all widgets in main interface frame so that the question frame could replace it
 def clear_main_interface_frame():
     global main_interface_frame
@@ -30,17 +34,50 @@ def Exit():
 
 #Return to main interface once return icon is clicked
 def Return():
-    global Questionnum
+    global Questionnum, window
     for widget in quiz_interface_frame.winfo_children():
         widget.destroy()
-        quiz_interface_frame.destroy()
+    quiz_interface_frame.destroy()
     Questionnum = 1
     main_interface()
+    
+
+def Return2():
+    global Questionnum, window
+    for widget in result_interface_frame.winfo_children():
+        widget.destroy()
+    result_interface_frame.destroy()
+    Questionnum = 1
+    main_interface()
+
+# This retry function destroy the result interface frames and calls the selected list from before
+def Retry():
+    global current_list, listvariable, Questionnum, numbercorrect, numberincorrect
+    for widget in result_interface_frame.winfo_children():
+        widget.destroy() 
+        result_interface_frame.destroy()
+    numbercorrect = 0
+    numberincorrect = 0
+    Questionnum = 1
+    if current_list == 1:
+        question_interface(QBlist)
+    if current_list == 2:
+        question_interface(QElist)
+    if current_list == 3:
+        question_interface(QIlist)
+    if current_list == 4:
+        question_interface(QPlist)
+    if current_list == 5:
+        question_interface(QRlist)
+    if current_list == 6:
+        question_interface(QSlist)
+    if current_list == 7:
+        question_interface(Total_list)
 
 #_____________________________________________________________Main Interface_________________________________________________________
 def main_interface():
     global main_interface_frame,  mainfontstyle, Total_list
-    mainfontstyle = ("Helvetica", 10, "bold")
+    mainfontstyle = ("Verdana", 10)
     main_interface_frame = Frame(window)
     main_interface_frame.pack(fill=BOTH, expand=True)
     random.shuffle(Total_list)
@@ -73,10 +110,10 @@ def main_interface():
         Sign_label = Label(main_interface_frame, text="Sign", height= 2, width=20, bg = "black", fg= "white",font = mainfontstyle)
         Sign_label.place(x=680, y=500)
 
-        Timelimit_OnorOff = Button(main_interface_frame, text="Time limit\n In minutes\n On / Off", height=5, width=20, bg="red", fg="white", font=mainfontstyle, bd=0, command=Timelimit_activation)
+        Timelimit_OnorOff = Button(main_interface_frame, text="Time limit\n In minutes\n On / Off", height=5, width=23, bg="red", fg="white", font=mainfontstyle, bd=0, command=Timelimit_activation)
         Timelimit_OnorOff.place(x=1160, y=120)
 
-        RandomQuestions = Button(main_interface_frame, text="Confirm number of\nRandomized Questions", height= 5, width=20, bg = "black", fg= "white", font = mainfontstyle, command=Random_Question_activation, bd=0)
+        RandomQuestions = Button(main_interface_frame, text="Confirm number of\nRandomized Questions", height= 5, width=23, bg = "black", fg= "white", font = mainfontstyle, command=Random_Question_activation, bd=0)
         RandomQuestions.place(x=1160, y=330)
         #Spinkbox for the user to select number of question from 15 to 30 randomize questions
         randomquestion_spinbox = Spinbox(main_interface_frame, from_=10, to=35, font = mainfontstyle, bd= 10, state='readonly')
@@ -128,53 +165,60 @@ def main_interface():
 
     #When button of any category is clicked the frame clear function activates, question interface activates and the listvariable gets replaced
     def Behavior_activation():
-        global listvariable, questionlength
+        global listvariable, questionlength, current_list
         questionlength = 10
         clear_main_interface_frame()
         listvariable = QBlist
+        current_list = 1
         question_interface(listvariable)
 
     def Emergencies_activation():
-        global listvariable, questionlength
+        global listvariable, questionlength, current_list
         questionlength = 10
         clear_main_interface_frame()
         listvariable = QElist
+        current_list = 2
         question_interface(listvariable)
     
     def Intersections_activation():
-        global listvariable, questionlength
+        global listvariable, questionlength, current_list
         questionlength = 10
         clear_main_interface_frame()
         listvariable = QIlist
+        current_list = 3
         question_interface(listvariable)
 
     def Parking_activation():
-        global listvariable, questionlength
+        global listvariable, questionlength, current_list
         questionlength = 10
         clear_main_interface_frame()
         listvariable = QPlist
+        current_list = 4
         question_interface(listvariable)
     
     def RoadPositions_activation():
-        global listvariable, questionlength
+        global listvariable, questionlength, current_list
         questionlength = 10
         clear_main_interface_frame()
         listvariable = QRlist
+        current_list = 5
         question_interface(listvariable)
     
     def Sign_activation():
-        global listvariable, questionlength
+        global listvariable, questionlength, current_list
         questionlength = 10
         clear_main_interface_frame()
         listvariable = QSlist
+        current_list = 6
         question_interface(listvariable)
     
     def Random_Question_activation():
-        global listvariable, questionlength, length, randomquestion_spinbox, Total_list
+        global listvariable, questionlength, length, randomquestion_spinbox, Total_list, current_list
         length = int(randomquestion_spinbox.get())
         questionlength = length
         clear_main_interface_frame()
         listvariable = Total_list
+        current_list = 7
         question_interface(listvariable)
 
     background_image_main()
@@ -388,10 +432,9 @@ def question_interface(category_list):
                 quiz_interface_frame.destroy()
 
             if i+1 == questionlength:
-                Questionnum = 1
                 questions_correct.clear()                                        
                 questions_incorrect.clear()
-                main_interface()
+                result_interface()
             else: 
                 questions()
         background_image_question()
@@ -401,7 +444,50 @@ def question_interface(category_list):
         quiz_interface_progressbar()
     questions()
     
+#__________________________________________________Result_Interface_____________________________________________________________
+def result_interface():
+    global result_interface_frame, numbercorrect, Questionnum
 
+    result_interface_frame = Frame(window)
+    result_interface_frame.pack(fill=BOTH, expand=True)
+    # Displaying Labels for the result interface
+    def ResultLabel():
+        global numbercorrect, Questionnum, result_interface_frame
+        result_label = Label(result_interface_frame, text=("Correct", numbercorrect, "/", Questionnum - 1), height=4, width=30, font = ("Verdana", 22), bg = "black", fg = "white")
+        result_label.place(x=100, y=500)
+    # Buttons for the result interface includes the Icons (Exit, Retry and Return Icons)
+    def Result_Buttons():
+        global ExitIcon_picture, Photo_ReturnIcon_picture, RetryIcon_picture
+        Photo_ExitIcon_picture_label2 = Button(result_interface_frame, image= ExitIcon_picture, command = Exit, bd=0, bg = "white")
+        Photo_ExitIcon_picture_label2.place(x=700, y=170)
+        Photo_ReturnIcon_picture_label2 = Button(result_interface_frame, image= Photo_ReturnIcon_picture, command = Return2, bd=0, bg="white")
+        Photo_ReturnIcon_picture_label2.place(x=700, y=270)
+        RetryIcon_picture = PhotoImage(file="Image_Folder/Main Image/RetryIcon.png").subsample(3,3)
+        Photo_RetryIcon_picture_label = Button(result_interface_frame, image= RetryIcon_picture, command = Retry, bd=0, bg="white")
+        Photo_RetryIcon_picture_label.place(x=700, y=370)
+    
+    #Piechart for visualy displaying the results
+    def Piegraph():
+        global numbercorrect, numberincorrect
+        data = [numbercorrect, numberincorrect]
+        resultdata = ['Correct', 'Incorrect']
+        colour = ['tab:green', 'tab:red']
+        text_prop = {'color':'white',"fontsize":13, 'fontstyle':'italic', 'fontfamily':'sans-serif'}
+        #Adjusting Size of the graph
+        fig = plt.figure(figsize=(6, 5), dpi=91, facecolor="black")
+        ax = fig.add_subplot(111)
+        # Specification of the graph as well as ploting the graph into the result interface frame
+        ax.pie(data, labels=resultdata, colors=colour, autopct='%.1f%%', textprops=text_prop, shadow=True, wedgeprops=
+       {'edgecolor':'white'}, labeldistance=0.3)
+        title = ax.text(0.5, 1, "Result", ha='center', va='center', color='white', transform=ax.transAxes, fontsize = 20)
+        canvas = FigureCanvasTkAgg(fig, master=result_interface_frame)
+        canvas.draw()
+        canvas.get_tk_widget().place(x=100, y=35)
+            
+    ResultLabel()
+    Result_Buttons()
+    Piegraph()
+    
 
 #Main function to create a window
 def Main():
