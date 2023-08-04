@@ -8,6 +8,7 @@ import random
 from matplotlib import pyplot as plt
 import numpy as np
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from tkinter import scrolledtext
 
 from Behaviour import *
 from Emergencies import *
@@ -34,20 +35,32 @@ def Exit():
 
 #Return to main interface once return icon is clicked
 def Return():
-    global Questionnum, window
+    global Questionnum, window, numbercorrect, numberincorrect, questions_incorrect, questions_correct, answers_incorrect, answers_correct
     for widget in quiz_interface_frame.winfo_children():
         widget.destroy()
     quiz_interface_frame.destroy()
     Questionnum = 1
+    numbercorrect = 0
+    numberincorrect = 0
+    questions_incorrect.clear()
+    questions_correct.clear()
+    answers_incorrect.clear()
+    answers_correct.clear()
     main_interface()
     
 
 def Return2():
-    global Questionnum, window
+    global Questionnum, window, numbercorrect, numberincorrect, questions_incorrect, questions_correct, answers_incorrect, answers_correct
     for widget in result_interface_frame.winfo_children():
         widget.destroy()
     result_interface_frame.destroy()
     Questionnum = 1
+    numbercorrect = 0
+    numberincorrect = 0
+    questions_incorrect.clear()
+    questions_correct.clear()
+    answers_incorrect.clear()
+    answers_correct.clear()
     main_interface()
 
 # This retry function destroy the result interface frames and calls the selected list from before
@@ -59,6 +72,10 @@ def Retry():
     numbercorrect = 0
     numberincorrect = 0
     Questionnum = 1
+    questions_incorrect.clear()
+    questions_correct.clear()
+    answers_incorrect.clear()
+    # The numbers of current_list represents different category of questions
     if current_list == 1:
         question_interface(QBlist)
     if current_list == 2:
@@ -242,6 +259,13 @@ Total_list = [Q1B, Q2B, Q3B, Q4B, Q5B, Q6B, Q7B, Q8B, Q9B, Q10B,
             Q1R, Q2R, Q3R, Q4R, Q5R, Q6R, Q7R, Q8R, Q9R, Q10R,
             Q1S, Q2S, Q3S, Q4S, Q5S, Q6S, Q7S, Q8S, Q9S, Q10S]
 
+questions_correct = []
+questions_incorrect = []
+answers_incorrect = []
+answers_correct = []
+numbercorrect = 0
+numberincorrect = 0
+
 Questionnum = 1
 
 # Destroys the quiz_interface_frame once it is called
@@ -254,14 +278,9 @@ def clear_quiz_interface_frame():
 
 # main question_interface function contains nessary variables to randomized each list of questions
 def question_interface(category_list):
-    global TotalbehaviourQ, quiz_interface_frame, window,  mainfontstyle, question_list, random_question_generator, random_question_generated, i, questions_correct, questions_incorrect, numberincorrect, numbercorrect, randomquestion_spinbox, questionlength, Total_list
+    global TotalbehaviourQ, quiz_interface_frame, window,  mainfontstyle, question_list, random_question_generator, random_question_generated, i, questions_correct, questions_incorrect, numberincorrect, numbercorrect, randomquestion_spinbox, questionlength, Total_list, answers_incorrect
 
-    questions_correct = []
-    questions_incorrect = []
     random_question_generator = []
-    numbercorrect = 0
-    numberincorrect = 0
-
 
     for i in range (questionlength):
         random_question_generator.append(i)
@@ -324,72 +343,60 @@ def question_interface(category_list):
         
         #Checks if the selected button is correct
         def Correct_check_B1():
-            global question_list, numbercorrect, numberincorrect, questions_incorrect, questions_correct
+            global question_list, numbercorrect, numberincorrect, questions_incorrect, questions_correct, answers_incorrect, answers_correct
             if (question_list[1][0]) == (question_list[2]):
                 questions_correct.append(question_list[0])
+                answers_correct.append(question_list[2])
                 numbercorrect = numbercorrect + 1
     
             if (question_list[1][0]) != (question_list[2]):
                 questions_incorrect.append(question_list[0])
+                answers_incorrect.append(question_list[2])
                 numberincorrect = numberincorrect + 1
 
             quiz_interface_next_question()
-
-            print("Questions Correct: ", questions_correct)
-            print("Questions Incorrect: ", questions_incorrect)
-            print("Number of QCorrect: ", numbercorrect)
-            print("Number of QIncorrect: ", numberincorrect)
         
         def Correct_check_B2():
-            global question_list, numbercorrect, numberincorrect, questions_incorrect, questions_correct
+            global question_list, numbercorrect, numberincorrect, questions_incorrect, questions_correct, answers_incorrect, answers_correct
             if (question_list[1][1]) == (question_list[2]):
                 questions_correct.append(question_list[0])
+                answers_correct.append(question_list[2])
                 numbercorrect = numbercorrect + 1
     
             if (question_list[1][1]) != (question_list[2]):
                 questions_incorrect.append(question_list[0])
+                answers_incorrect.append(question_list[2])
                 numberincorrect = numberincorrect + 1
 
             quiz_interface_next_question()
 
-            print("Questions Correct: ", questions_correct)
-            print("Questions Incorrect: ", questions_incorrect)
-            print("Number of QCorrect: ", numbercorrect)
-            print("Number of QIncorrect: ", numberincorrect)
-
         def Correct_check_B3():
-            global question_list, numbercorrect, numberincorrect, questions_incorrect, questions_correct
+            global question_list, numbercorrect, numberincorrect, questions_incorrect, questions_correct, answers_incorrect, answers_correct
             if (question_list[1][2]) == (question_list[2]):
                 questions_correct.append(question_list[0])
+                answers_correct.append(question_list[2])
                 numbercorrect = numbercorrect + 1
     
             if (question_list[1][2]) != (question_list[2]):
                 questions_incorrect.append(question_list[0])
+                answers_incorrect.append(question_list[2])
                 numberincorrect = numberincorrect + 1
                 
             quiz_interface_next_question()
 
-            print("Questions Correct: ", questions_correct)
-            print("Questions Incorrect: ", questions_incorrect)
-            print("Number of QCorrect: ", numbercorrect)
-            print("Number of QIncorrect: ", numberincorrect)
-
         def Correct_check_B4():
-            global question_list, numbercorrect, numberincorrect, questions_incorrect, questions_correct
+            global question_list, numbercorrect, numberincorrect, questions_incorrect, questions_correct, answers_incorrect, answers_correct
             if (question_list[1][3]) == (question_list[2]):
                 questions_correct.append(question_list[0])
+                answers_correct.append(question_list[2])
                 numbercorrect = numbercorrect + 1
     
             if (question_list[1][3]) != (question_list[2]):
                 questions_incorrect.append(question_list[0])
+                answers_incorrect.append(question_list[2])
                 numberincorrect = numberincorrect + 1
                 
             quiz_interface_next_question()
-
-            print("Questions Correct: ", questions_correct)
-            print("Questions Incorrect: ", questions_incorrect)
-            print("Number of QCorrect: ", numbercorrect)
-            print("Number of QIncorrect: ", numberincorrect)
 
         #Image of questions for the
         def quiz_interface_image():
@@ -432,8 +439,6 @@ def question_interface(category_list):
                 quiz_interface_frame.destroy()
 
             if i+1 == questionlength:
-                questions_correct.clear()                                        
-                questions_incorrect.clear()
                 result_interface()
             else: 
                 questions()
@@ -450,21 +455,35 @@ def result_interface():
 
     result_interface_frame = Frame(window)
     result_interface_frame.pack(fill=BOTH, expand=True)
+
+    #Background for  result interface
+    def background_image_result():
+        global window, bgr, result_interface_frame
+        bgr = PhotoImage(file="Image_Folder/Main Image/resultbackground.png")
+        background_image_result = Label(result_interface_frame, image=bgr)
+        background_image_result.place(x=0, y=0, relwidth=1, relheight=1)
+
+
     # Displaying Labels for the result interface
     def ResultLabel():
         global numbercorrect, Questionnum, result_interface_frame
         result_label = Label(result_interface_frame, text=("Correct", numbercorrect, "/", Questionnum - 1), height=4, width=30, font = ("Verdana", 22), bg = "black", fg = "white")
-        result_label.place(x=100, y=500)
+        result_label.place(x=50, y=500)
+        Questions_Incorrect_label = Label(result_interface_frame, text="Questions Incorrect", height=2, width=33, font = ("Verdana", 15, "bold"), bg = "black", fg = "white")
+        Questions_Incorrect_label.place(x=840, y=35)
+        Questions_Correct_label = Label(result_interface_frame, text="Questions Correct", height=2, width=33, font = ("Verdana", 15, "bold"), bg = "black", fg = "white")
+        Questions_Correct_label.place(x=840, y=355)
+
     # Buttons for the result interface includes the Icons (Exit, Retry and Return Icons)
     def Result_Buttons():
         global ExitIcon_picture, Photo_ReturnIcon_picture, RetryIcon_picture
         Photo_ExitIcon_picture_label2 = Button(result_interface_frame, image= ExitIcon_picture, command = Exit, bd=0, bg = "white")
-        Photo_ExitIcon_picture_label2.place(x=700, y=170)
+        Photo_ExitIcon_picture_label2.place(x=675, y=180)
         Photo_ReturnIcon_picture_label2 = Button(result_interface_frame, image= Photo_ReturnIcon_picture, command = Return2, bd=0, bg="white")
-        Photo_ReturnIcon_picture_label2.place(x=700, y=270)
+        Photo_ReturnIcon_picture_label2.place(x=675, y=280)
         RetryIcon_picture = PhotoImage(file="Image_Folder/Main Image/RetryIcon.png").subsample(3,3)
         Photo_RetryIcon_picture_label = Button(result_interface_frame, image= RetryIcon_picture, command = Retry, bd=0, bg="white")
-        Photo_RetryIcon_picture_label.place(x=700, y=370)
+        Photo_RetryIcon_picture_label.place(x=675, y=380)
     
     #Piechart for visualy displaying the results
     def Piegraph():
@@ -482,10 +501,39 @@ def result_interface():
         title = ax.text(0.5, 1, "Result", ha='center', va='center', color='white', transform=ax.transAxes, fontsize = 20)
         canvas = FigureCanvasTkAgg(fig, master=result_interface_frame)
         canvas.draw()
-        canvas.get_tk_widget().place(x=100, y=35)
-            
+        canvas.get_tk_widget().place(x=50, y=35)
+    
+    #This function displays all incorrect questions with the answers in one text and the other textbox for questions that the user got correct with the answers
+    def text():
+        global answers_incorrect, questions_correct, questions_incorrect, answers_correct
+
+        # Ensure both lists have at least one element
+        if questions_incorrect and answers_incorrect:
+            inccombined_text = ""
+            #This for loop combines the questions_incorrect variable and answer_incorrect variable together as well as assign a number to it
+            for idx, (question, answer) in enumerate(zip(questions_incorrect, answers_incorrect), start=1):
+                inccombined_text += f"{idx}. {question}: \n{answer}\n\n"
+            #Displaying the text
+            display_question_incorrect = scrolledtext.ScrolledText(result_interface_frame, wrap=WORD, width=45, height=13, font=("Verdana", 11))
+            display_question_incorrect.insert(END, inccombined_text)
+            display_question_incorrect.config(state=DISABLED)
+            display_question_incorrect.place(x=840, y=90)
+        # Same thing but for correct questions instead
+        if questions_correct and answers_correct:
+            corcombined_text = ""
+
+            for idx, (question, answer) in enumerate(zip(questions_correct, answers_correct), start=1):
+                corcombined_text += f"{idx}. {question}: \n{answer}\n\n"
+
+            display_question_incorrect = scrolledtext.ScrolledText(result_interface_frame, wrap=WORD, width=45, height=13, font=("Verdana", 11))
+            display_question_incorrect.insert(END, corcombined_text)
+            display_question_incorrect.config(state=DISABLED)
+            display_question_incorrect.place(x=840, y=410)
+        
+    background_image_result()
     ResultLabel()
     Result_Buttons()
+    text()
     Piegraph()
     
 
