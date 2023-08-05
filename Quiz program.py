@@ -5,6 +5,7 @@ from tkinter import ttk
 from tkinter import font
 import time
 import random
+import math
 from matplotlib import pyplot as plt
 import numpy as np
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -16,13 +17,12 @@ from Intersections import *
 from Parking import *
 from RoadPositions import *
 from Sign import *
+
 current_list = 0
 # This function is to delete all widgets in main interface frame so that the question frame could replace it
 def clear_main_interface_frame():
     global main_interface_frame
-    for widget in main_interface_frame.winfo_children():
-        widget.destroy() 
-        main_interface_frame.destroy()
+    main_interface_frame.pack_forget()
 
 #Exit interface once exit icon has clicked (it asks user if there are sure)
 def Exit():
@@ -36,9 +36,7 @@ def Exit():
 #Return to main interface once return icon is clicked
 def Return():
     global Questionnum, window, numbercorrect, numberincorrect, questions_incorrect, questions_correct, answers_incorrect, answers_correct
-    for widget in quiz_interface_frame.winfo_children():
-        widget.destroy()
-    quiz_interface_frame.destroy()
+    clear_quiz_interface_frame()
     Questionnum = 1
     numbercorrect = 0
     numberincorrect = 0
@@ -46,11 +44,12 @@ def Return():
     questions_correct.clear()
     answers_incorrect.clear()
     answers_correct.clear()
+    toggleOnorOff = "Off"
     main_interface()
     
 
 def Return2():
-    global Questionnum, window, numbercorrect, numberincorrect, questions_incorrect, questions_correct, answers_incorrect, answers_correct
+    global Questionnum, window, numbercorrect, numberincorrect, questions_incorrect, questions_correct, answers_incorrect, answers_correct, toggleOnorOff
     for widget in result_interface_frame.winfo_children():
         widget.destroy()
     result_interface_frame.destroy()
@@ -61,11 +60,12 @@ def Return2():
     questions_correct.clear()
     answers_incorrect.clear()
     answers_correct.clear()
+    toggleOnorOff = "Off"
     main_interface()
 
 # This retry function destroy the result interface frames and calls the selected list from before
 def Retry():
-    global current_list, listvariable, Questionnum, numbercorrect, numberincorrect
+    global current_list, listvariable, Questionnum, numbercorrect, numberincorrect, toggleOnorOff
     for widget in result_interface_frame.winfo_children():
         widget.destroy() 
         result_interface_frame.destroy()
@@ -108,7 +108,8 @@ def main_interface():
 
     #Creating main interface labels for each different categories
     def main_interface_label():
-        global Timelimit_OnorOff, main_interface_frame, randomquestion_spinbox, questionlength
+        global Timelimit_OnorOff, main_interface_frame, randomquestion_spinbox, questionlength, Timelimit_spinbox, toggleOnorOff
+        toggleOnorOff = "Off"
         Behavior_Label = Label(main_interface_frame, text="Behavior", height= 2, width=18, bg = "black", fg= "white", font = mainfontstyle)
         Behavior_Label.place(x=60, y=220)
 
@@ -140,18 +141,19 @@ def main_interface():
         Timelimit_spinbox.place(x=1160, y=100)
 
     def Timelimit_activation():
-        global Timelimit_OnorOff
+        global Timelimit_OnorOff, toggleOnorOff
         #Check the current background color of Timelimit_OnorOff
         current_bg = Timelimit_OnorOff.cget("bg")
         # Toggle the background color
         if current_bg == "green":
             Timelimit_OnorOff.config(bg="red")
+            toggleOnorOff = "Off"
         else:
             Timelimit_OnorOff.config(bg="green")
-
+            toggleOnorOff = "On"
     #Creating main interface image (that acts as a button) for each different categories
     def main_interface_image():
-        global behavior_picture, main_interface_frame, Emergency_picture, Parking_picture, Intersection_picture, Road_Position_picture, Sign_picture, ExitIcon_picture, question_interface, randomquestion_spinbox
+        global behavior_picture, main_interface_frame, Emergency_picture, Parking_picture, Intersection_picture, Road_Position_picture, Sign_picture, ExitIcon_picture
         behavior_picture = PhotoImage(file="Image_Folder/Main Image/Behaviormainpic.png").subsample(1,1)
         Photo_behavior_picture_label = Button(main_interface_frame, image= behavior_picture, text="Behavior", relief="solid", bd=0, bg = "black", activebackground="white", height = 187, width = 280, command = Behavior_activation)
         Photo_behavior_picture_label.place(x=60, y=70)
@@ -230,9 +232,10 @@ def main_interface():
         question_interface(listvariable)
     
     def Random_Question_activation():
-        global listvariable, questionlength, length, randomquestion_spinbox, Total_list, current_list
+        global listvariable, questionlength, length, randomquestion_spinbox, Total_list, current_list, Timelimit_spinbox, spinboxnum
         length = int(randomquestion_spinbox.get())
         questionlength = length
+        spinboxnum = Timelimit_spinbox.get()
         clear_main_interface_frame()
         listvariable = Total_list
         current_list = 7
@@ -274,12 +277,10 @@ def clear_quiz_interface_frame():
     for widget in quiz_interface_frame.winfo_children():
         widget.destroy()
         quiz_interface_frame.destroy()
-        main_interface()
 
 # main question_interface function contains nessary variables to randomized each list of questions
 def question_interface(category_list):
-    global TotalbehaviourQ, quiz_interface_frame, window,  mainfontstyle, question_list, random_question_generator, random_question_generated, i, questions_correct, questions_incorrect, numberincorrect, numbercorrect, randomquestion_spinbox, questionlength, Total_list, answers_incorrect
-
+    global quiz_interface_frame, window,  mainfontstyle, question_list, random_question_generator, i, questions_correct, questions_incorrect, numberincorrect, numbercorrect, randomquestion_spinbox, questionlength, Total_list, answers_incorrect, toggleOnorOff
     random_question_generator = []
 
     for i in range (questionlength):
@@ -297,7 +298,7 @@ def question_interface(category_list):
 
     #This functions contains the nessary componets the quiz interface such as button, image, label, progress bar, checking input
     def questions():
-        global TotalbehaviourQ, quiz_interface_frame, window,  mainfontstyle, question_list, random_question_generator, random_question_generated, Questionnum, i, question_list, numbercorrect, numberincorrect, questions_incorrect, questions_correct, randomquestion_spinbox, questionlength, randombuttonplacement1
+        global quiz_interface_frame, window,  mainfontstyle, question_list, random_question_generator, Questionnum, i, question_list, numbercorrect, numberincorrect, questions_incorrect, questions_correct, randomquestion_spinbox, questionlength, randombuttonplacement1
         global i, question_list
         i += 1
 
@@ -312,7 +313,37 @@ def question_interface(category_list):
         position4 = {'x': 970, 'y': 540}
         randombuttonplacement1 = [position1, position2, position3, position4]
         random.shuffle(randombuttonplacement1)
-
+        
+        #Runtimer function contains detecting if the timer is toggle on or off and gathering the infromation of the timelimit spinbox to find the time limit per question
+        def runTimer():
+            global Timelimit_spinbox, questionlength, secondperquestion
+            if toggleOnorOff == "On":
+                second = int(Timelimit_spinbox.get()) * 60
+                secondperquestion = math.trunc(second / questionlength)
+                update_timer_label(secondperquestion)
+            else:
+                pass
+        #This function refresh the timer so that the number would be counting down
+        def update_timer_label(time_left):
+            global secondperquestion, numbercorrect, numberincorrect, Questionnum, questions_incorrect, questions_correct, answers_incorrect, answers_correct, toggleOnorOff
+            if time_left >= 0:
+                timelabel = Label(quiz_interface_frame, text=(time_left,"s/left"), height=4, width=25, bg="black", fg= "white", font=mainfontstyle)
+                timelabel.place(x=70, y=13)
+                quiz_interface_frame.after(1000, update_timer_label, time_left - 1)
+            #when time reaches 0 a message box would pop up and resets all the variables and calls the main interface.
+            else:
+                messagebox.showinfo("", "Times Up!")
+                numbercorrect = 0
+                numberincorrect = 0
+                Questionnum = 1
+                questions_incorrect.clear()
+                questions_correct.clear()
+                answers_incorrect.clear()
+                answers_correct.clear()
+                toggleOnorOff = "Off"
+                clear_quiz_interface_frame()
+                main_interface()
+            
         #Button for the quiz_interface
         def quiz_interface_button():
             global question_list, randombuttonplacement1
@@ -431,7 +462,7 @@ def question_interface(category_list):
 
         #function for switching to the next questions once button a button is clicked on the previous question
         def quiz_interface_next_question():
-            global Questionnum, clear_quiz_interface_frame, quiz_interface_frame, question_listquestion_list, numbercorrect, numberincorrect, questions_incorrect, questions_correct, randomquestion_spinbox, questionlength
+            global Questionnum, clear_quiz_interface_frame, quiz_interface_frame, question_list, numbercorrect, numberincorrect, questions_incorrect, questions_correct, randomquestion_spinbox, questionlength
             Questionnum = Questionnum + 1
 
             for widget in quiz_interface_frame.winfo_children():
@@ -442,11 +473,13 @@ def question_interface(category_list):
                 result_interface()
             else: 
                 questions()
+
         background_image_question()
         quiz_interface_label()
         quiz_interface_button()
         quiz_interface_image()
         quiz_interface_progressbar()
+        runTimer()
     questions()
     
 #__________________________________________________Result_Interface_____________________________________________________________
@@ -496,9 +529,9 @@ def result_interface():
         fig = plt.figure(figsize=(6, 5), dpi=91, facecolor="black")
         ax = fig.add_subplot(111)
         # Specification of the graph as well as ploting the graph into the result interface frame
-        ax.pie(data, labels=resultdata, colors=colour, autopct='%.1f%%', textprops=text_prop, shadow=True, wedgeprops=
-       {'edgecolor':'white'}, labeldistance=0.3)
-        title = ax.text(0.5, 1, "Result", ha='center', va='center', color='white', transform=ax.transAxes, fontsize = 20)
+        ax.pie(data, colors=colour, autopct='%.1f%%', textprops=text_prop, shadow=True, wedgeprops=
+       {'edgecolor':'white'}, labeldistance=0.6)
+        title = ax.text(0.5, 1, "Result", ha='center', va='center', color='white', transform=ax.transAxes, fontsize = 25)
         canvas = FigureCanvasTkAgg(fig, master=result_interface_frame)
         canvas.draw()
         canvas.get_tk_widget().place(x=50, y=35)
@@ -529,7 +562,7 @@ def result_interface():
             display_question_incorrect.insert(END, corcombined_text)
             display_question_incorrect.config(state=DISABLED)
             display_question_incorrect.place(x=840, y=410)
-        
+    
     background_image_result()
     ResultLabel()
     Result_Buttons()
@@ -543,6 +576,7 @@ def Main():
     window = Tk()
     window.title("Road Code Quiz")
     window.geometry("1350x679")
+    window.resizable(False, False)
     main_interface()
     window.mainloop()
 
