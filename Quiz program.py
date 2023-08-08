@@ -147,10 +147,13 @@ def main_interface():
         # Toggle the background color
         if current_bg == "green":
             Timelimit_OnorOff.config(bg="red")
+            Timelimit_OnorOff.config(text="Timer Off")
             toggleOnorOff = "Off"
         else:
             Timelimit_OnorOff.config(bg="green")
+            Timelimit_OnorOff.config(text="Timer On")
             toggleOnorOff = "On"
+
     #Creating main interface image (that acts as a button) for each different categories
     def main_interface_image():
         global behavior_picture, main_interface_frame, Emergency_picture, Parking_picture, Intersection_picture, Road_Position_picture, Sign_picture, ExitIcon_picture
