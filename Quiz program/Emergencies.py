@@ -1,3 +1,13 @@
+"""Firt dictionary in the dictionary is the Question text, second dictionary is the choices (avaliable options of answers)
+,third dictionary is the answer to the question and fourth is storing the image file"""
+
+""" template for adding questions
+variable = {"Question":,
+            "Choices":,
+            "Answer":,
+            "Image":}
+"""
+
 Q1E = {"Question": "What will happen if you have a front tyre blowout?",
 
     "Choices": ["The back end will sway towards\n the side of the blowout",

@@ -158,27 +158,27 @@ def main_interface():
     def main_interface_image():
         global behavior_picture, main_interface_frame, Emergency_picture, Parking_picture, Intersection_picture, Road_Position_picture, Sign_picture, ExitIcon_picture
         behavior_picture = PhotoImage(file="Image_Folder/Main Image/Behaviormainpic.png").subsample(1,1)
-        Photo_behavior_picture_label = Button(main_interface_frame, image= behavior_picture, text="Behavior", relief="solid", bd=0, bg = "black", activebackground="white", height = 187, width = 280, command = Behavior_activation)
+        Photo_behavior_picture_label = Button(main_interface_frame, image= behavior_picture, text="Behavior", relief="solid", bd=0, bg = "black", activebackground="white", height = 187, width = 280, command=lambda: activation(1, QBlist, 10))
         Photo_behavior_picture_label.place(x=60, y=70)
 
         Emergency_picture = PhotoImage(file="Image_Folder/Main Image/Emergencymainpic.png").subsample(1,1)
-        Photo_Emergency_picture_label = Button(main_interface_frame, image= Emergency_picture, text="Emergency", relief="solid", bd=0, bg= "black", activebackground="white", height = 187, width = 280, command = Emergencies_activation)
+        Photo_Emergency_picture_label = Button(main_interface_frame, image= Emergency_picture, text="Emergency", relief="solid", bd=0, bg= "black", activebackground="white", height = 187, width = 280, command=lambda: activation(2, QElist, 10))
         Photo_Emergency_picture_label.place(x=370, y=70)
 
         Intersection_picture = PhotoImage(file="Image_Folder/Main Image/Intersectionmainpic.png").subsample(1,1)
-        Photo_Intersection_picture_label = Button(main_interface_frame, image= Intersection_picture, text="Intersection", relief="solid", bd=0, bg= "black", activebackground="white", height = 187, width = 280, command = Intersections_activation)
+        Photo_Intersection_picture_label = Button(main_interface_frame, image= Intersection_picture, text="Intersection", relief="solid", bd=0, bg= "black", activebackground="white", height = 187, width = 280, command=lambda: activation(3, QIlist, 10))
         Photo_Intersection_picture_label.place(x=680, y=70)
 
         Parking_picture = PhotoImage(file="Image_Folder/Main Image/Parkingmainpic.png").subsample(1,1)
-        Photo_Parking_picture_label = Button(main_interface_frame, image= Parking_picture, text="Parking", relief="solid", bg= "black", bd=0, activebackground="white", height = 187, width = 280, command = Parking_activation)
+        Photo_Parking_picture_label = Button(main_interface_frame, image= Parking_picture, text="Parking", relief="solid", bg= "black", bd=0, activebackground="white", height = 187, width = 280, command=lambda: activation(4, QPlist, 10))
         Photo_Parking_picture_label.place(x=60, y=350)
 
         Road_Position_picture = PhotoImage(file="Image_Folder/Main Image/Road_Positionmainpic.png").subsample(1,1)
-        Photo_Road_Position_picture_label = Button(main_interface_frame, image= Road_Position_picture, text="Road_position", relief="solid", bd=0, bg= "black", activebackground="white", height = 187, width = 280, command = RoadPositions_activation)
+        Photo_Road_Position_picture_label = Button(main_interface_frame, image= Road_Position_picture, text="Road_position", relief="solid", bd=0, bg= "black", activebackground="white", height = 187, width = 280, command=lambda: activation(5, QRlist, 10))
         Photo_Road_Position_picture_label.place(x=370, y=350)
 
         Sign_picture = PhotoImage(file="Image_Folder/Main Image/Signmainpic.png").subsample(1,1)
-        Photo_Sign_picture_label = Button(main_interface_frame, image= Sign_picture, text="Sign", relief="solid", bd=0, bg= "black", activebackground="white", height = 187, width = 280, command = Sign_activation)
+        Photo_Sign_picture_label = Button(main_interface_frame, image= Sign_picture, text="Sign", relief="solid", bd=0, bg= "black", activebackground="white", height = 187, width = 280, command=lambda: activation(6, QSlist, 10))
         Photo_Sign_picture_label.place(x=680, y=350)
 
         ExitIcon_picture = PhotoImage(file="Image_Folder/Main Image/ExitIcon.png").subsample(3,3)
@@ -186,59 +186,18 @@ def main_interface():
         Photo_ExitIcon_picture_label.place(x=1197, y=500)
 
     #When button of any category is clicked the frame clear function activates, question interface activates and the listvariable gets replaced
-    def Behavior_activation():
+    def activation(currentcategory, listvar, Qamount):
         global listvariable, questionlength, current_list
-        questionlength = 10
+        questionlength = Qamount
         clear_main_interface_frame()
-        listvariable = QBlist
-        current_list = 1
-        question_interface(listvariable)
-
-    def Emergencies_activation():
-        global listvariable, questionlength, current_list
-        questionlength = 10
-        clear_main_interface_frame()
-        listvariable = QElist
-        current_list = 2
-        question_interface(listvariable)
-    
-    def Intersections_activation():
-        global listvariable, questionlength, current_list
-        questionlength = 10
-        clear_main_interface_frame()
-        listvariable = QIlist
-        current_list = 3
-        question_interface(listvariable)
-
-    def Parking_activation():
-        global listvariable, questionlength, current_list
-        questionlength = 10
-        clear_main_interface_frame()
-        listvariable = QPlist
-        current_list = 4
-        question_interface(listvariable)
-    
-    def RoadPositions_activation():
-        global listvariable, questionlength, current_list
-        questionlength = 10
-        clear_main_interface_frame()
-        listvariable = QRlist
-        current_list = 5
-        question_interface(listvariable)
-    
-    def Sign_activation():
-        global listvariable, questionlength, current_list
-        questionlength = 10
-        clear_main_interface_frame()
-        listvariable = QSlist
-        current_list = 6
+        listvariable = listvar
+        current_list = currentcategory
         question_interface(listvariable)
     
     def Random_Question_activation():
-        global listvariable, questionlength, length, randomquestion_spinbox, Total_list, current_list, Timelimit_spinbox, spinboxnum
+        global listvariable, questionlength, length, randomquestion_spinbox, Total_list, current_list, Timelimit_spinbox
         length = int(randomquestion_spinbox.get())
         questionlength = length
-        spinboxnum = Timelimit_spinbox.get()
         clear_main_interface_frame()
         listvariable = Total_list
         current_list = 7
@@ -389,7 +348,7 @@ def question_interface(category_list):
             
             quiz_interface_next_question()
 
-        #Image of questions for the
+        """Getting the photo of the questions by getting the question_list"""
         def quiz_interface_image():
             global question_image, question_list
             try:
@@ -424,16 +383,17 @@ def question_interface(category_list):
         def quiz_interface_next_question():
             global Questionnum, clear_quiz_interface_frame, quiz_interface_frame, question_list, numbercorrect, numberincorrect, questions_incorrect, questions_correct, randomquestion_spinbox, questionlength
             Questionnum = Questionnum + 1
-
+            #Either way when the quiz_interface_next_question is called the quiz_interface_frame would be destroyed
             for widget in quiz_interface_frame.winfo_children():
                 widget.destroy()
                 quiz_interface_frame.destroy()
-
+            # When current question (i) reaches the maximum question (questionlength) the resul interface would be called
             if i+1 == questionlength:
                 result_interface()
-            else: 
+            # If not the quiz interface function would continue to run
+            else:
                 questions()
-
+        
         background_image_question()
         quiz_interface_label()
         quiz_interface_button()
@@ -500,10 +460,15 @@ def result_interface():
     def text():
         global answers_incorrect, questions_correct, questions_incorrect, answers_correct
 
-        # Ensure both lists have at least one element
+        #Ensure both lists have at least one element
         if questions_incorrect and answers_incorrect:
             inccombined_text = ""
-            #This for loop combines the questions_incorrect variable and answer_incorrect variable together as well as assign a number to it
+            """For every text in question_correct and answers_correct variable the each items would
+            be combine for example the first text of the list of question_correct and answers_correct
+            would be combined by the zip function. The enumrate function adds a number to the side of the 
+            each combined_text(question_correct and answers_correct). So each time a question and answer is combined
+            a number would be attached to it and increased by 1. 
+             """
             for idx, (question, answer) in enumerate(zip(questions_incorrect, answers_incorrect), start=1):
                 inccombined_text += f"{idx}. {question}: \n{answer}\n\n"
             #Displaying the text
@@ -511,7 +476,7 @@ def result_interface():
             display_question_incorrect.insert(END, inccombined_text)
             display_question_incorrect.config(state=DISABLED)
             display_question_incorrect.place(x=840, y=90)
-        # Same thing but for correct questions instead
+        #Same thing but instead the variables are swap with question_correct and answer_correct variable
         if questions_correct and answers_correct:
             corcombined_text = ""
 
