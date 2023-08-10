@@ -14,11 +14,11 @@ Q1B = {"Question": "What does a white diamond\n painted on the road mean?",
 Q2B = {"Question": "If you have to drive at a slow speed that\n may hold up other vehicles, what should you do?",
 
     "Choices": ["drive at night when there's less traffic",
-                "Keep to the left and let others pass where possible",
+                "Keep to the left and let\n others pass where possible",
                 "Nothing - drive as normal as it's other\n drivers' resposibility to overtake you safely",
-                "Keep as close as you can to the centre of the road"],
+                "Keep as close as you can to the\n centre of the road"],
 
-    "Answer": "Keep to the left and let others pass where possible"}
+    "Answer": "Keep to the left and let\n others pass where possible"}
 #_________________________________________________________________________________________________________________________________________________________
 
 Q3B = {"Question": "Where would you see this cat's eye?",
@@ -67,12 +67,12 @@ Q6B = {"Question": "You are driving downhill on a steep, narrow road\n and a veh
 
 Q7B = {"Question": "You are the driver of the blue car. Of the four hazards\n marked, which one is most likely to require you to take urgent action?",
 
-    "Choices": ["The car turning left onto the other side of the road",
-                "The car coming towards you",
-                "The car you are following",
-                "The car on the other side of the road turning right"],
+    "Choices": ["A",
+                "B",
+                "C",
+                "D"],
 
-    "Answer": "The car on the other side of the road turning right",
+    "Answer": "A",
 
     "Image": "Image_Folder/Question images/Behavior/Q7Bpic.png"}
 #_________________________________________________________________________________________________________________________________________________________
@@ -99,7 +99,7 @@ Q9B = {"Question": "What does this sign mean?",
     "Image": "Image_Folder/Question images/Behavior/Q9Bpic.png"}
 #_________________________________________________________________________________________________________________________________________________________
 
-Q10B = {"Question": "How far can your load extend either side of the centre line of your vehicle?",
+Q10B = {"Question": "How far can your load extend either\n side of the centre line of your vehicle?",
 
     "Choices": ["1m",
                 "1.275m",

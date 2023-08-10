@@ -352,84 +352,41 @@ def question_interface(category_list):
             global question_list, randombuttonplacement1
             try:    
                 if len(question_list[1]) == 4:
-                    choice_button1 = Button(quiz_interface_frame, text=question_list[1][0], height=7, width=40, bg="black", fg="white", font=mainfontstyle, bd=0, command=Correct_check_B1)
+                    choice_button1 = Button(quiz_interface_frame, text=question_list[1][0], height=7, width=40, bg="black", fg="white", font=mainfontstyle, bd=0, command=lambda: Correct_check(0))
                     choice_button1.place(x=randombuttonplacement1[0]['x'], y=randombuttonplacement1[0]['y'])
 
-                    choice_button2 = Button(quiz_interface_frame, text=question_list[1][1], height=7, width=40, bg="black", fg="white", font=mainfontstyle, bd=0, command=Correct_check_B2)
+                    choice_button2 = Button(quiz_interface_frame, text=question_list[1][1], height=7, width=40, bg="black", fg="white", font=mainfontstyle, bd=0, command=lambda: Correct_check(1))
                     choice_button2.place(x=randombuttonplacement1[1]['x'], y=randombuttonplacement1[1]['y'])
 
-                    choice_button3 = Button(quiz_interface_frame, text=question_list[1][2], height=7, width=40, bg="black", fg="white", font=mainfontstyle, bd=0, command=Correct_check_B3)
+                    choice_button3 = Button(quiz_interface_frame, text=question_list[1][2], height=7, width=40, bg="black", fg="white", font=mainfontstyle, bd=0, command=lambda: Correct_check(2))
                     choice_button3.place(x=randombuttonplacement1[2]['x'], y=randombuttonplacement1[2]['y'])
 
-                    choice_button4 = Button(quiz_interface_frame, text=question_list[1][3], height=7, width=40, bg="black", fg="white", font=mainfontstyle, bd=0, command=Correct_check_B4)
+                    choice_button4 = Button(quiz_interface_frame, text=question_list[1][3], height=7, width=40, bg="black", fg="white", font=mainfontstyle, bd=0, command=lambda: Correct_check(3))
                     choice_button4.place(x=randombuttonplacement1[3]['x'], y=randombuttonplacement1[3]['y'])
 
                 if len(question_list[1]) == 2:
-                    choice_button1 = Button(quiz_interface_frame, text=question_list[1][0], height=9, width=40, bg="black", fg="white", font=mainfontstyle, bd=0, command=Correct_check_B1)
+                    choice_button1 = Button(quiz_interface_frame, text=question_list[1][0], height=9, width=40, bg="black", fg="white", font=mainfontstyle, bd=0, command=lambda: Correct_check(0))
                     choice_button1.place(x=50, y=400)
 
-                    choice_button2 = Button(quiz_interface_frame, text=question_list[1][1], height=9, width=40, bg="black", fg="white", font=mainfontstyle, bd=0, command=Correct_check_B2)
+                    choice_button2 = Button(quiz_interface_frame, text=question_list[1][1], height=9, width=40, bg="black", fg="white", font=mainfontstyle, bd=0, command=lambda: Correct_check(1))
                     choice_button2.place(x=970, y=400)
 
             except:
                 pass
 
-        
         #Checks if the selected button is correct
-        def Correct_check_B1():
+        def Correct_check(index):
             global question_list, numbercorrect, numberincorrect, questions_incorrect, questions_correct, answers_incorrect, answers_correct
-            if (question_list[1][0]) == (question_list[2]):
+            if question_list[1][index] == question_list[2]:
                 questions_correct.append(question_list[0])
                 answers_correct.append(question_list[2])
-                numbercorrect = numbercorrect + 1
-    
-            if (question_list[1][0]) != (question_list[2]):
+                numbercorrect += 1
+
+            if question_list[1][index] != question_list[2]:
                 questions_incorrect.append(question_list[0])
                 answers_incorrect.append(question_list[2])
-                numberincorrect = numberincorrect + 1
-
-            quiz_interface_next_question()
-        
-        def Correct_check_B2():
-            global question_list, numbercorrect, numberincorrect, questions_incorrect, questions_correct, answers_incorrect, answers_correct
-            if (question_list[1][1]) == (question_list[2]):
-                questions_correct.append(question_list[0])
-                answers_correct.append(question_list[2])
-                numbercorrect = numbercorrect + 1
-    
-            if (question_list[1][1]) != (question_list[2]):
-                questions_incorrect.append(question_list[0])
-                answers_incorrect.append(question_list[2])
-                numberincorrect = numberincorrect + 1
-
-            quiz_interface_next_question()
-
-        def Correct_check_B3():
-            global question_list, numbercorrect, numberincorrect, questions_incorrect, questions_correct, answers_incorrect, answers_correct
-            if (question_list[1][2]) == (question_list[2]):
-                questions_correct.append(question_list[0])
-                answers_correct.append(question_list[2])
-                numbercorrect = numbercorrect + 1
-    
-            if (question_list[1][2]) != (question_list[2]):
-                questions_incorrect.append(question_list[0])
-                answers_incorrect.append(question_list[2])
-                numberincorrect = numberincorrect + 1
-                
-            quiz_interface_next_question()
-
-        def Correct_check_B4():
-            global question_list, numbercorrect, numberincorrect, questions_incorrect, questions_correct, answers_incorrect, answers_correct
-            if (question_list[1][3]) == (question_list[2]):
-                questions_correct.append(question_list[0])
-                answers_correct.append(question_list[2])
-                numbercorrect = numbercorrect + 1
-    
-            if (question_list[1][3]) != (question_list[2]):
-                questions_incorrect.append(question_list[0])
-                answers_incorrect.append(question_list[2])
-                numberincorrect = numberincorrect + 1
-                
+                numberincorrect += 1
+            
             quiz_interface_next_question()
 
         #Image of questions for the
