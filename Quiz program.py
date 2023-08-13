@@ -66,7 +66,7 @@ def Return2():
     main_interface()
 
 # This retry function destroy the result interface frames and calls the selected list from before
-def Retry():
+def Retry(currentcategory):
     global current_list, listvariable, Questionnum, numbercorrect, numberincorrect, toggleOnorOff
     for widget in result_interface_frame.winfo_children():
         widget.destroy() 
@@ -77,21 +77,7 @@ def Retry():
     questions_incorrect.clear()
     questions_correct.clear()
     answers_incorrect.clear()
-    # The numbers of current_list represents different category of questions
-    if current_list == 1:
-        question_interface(QBlist)
-    if current_list == 2:
-        question_interface(QElist)
-    if current_list == 3:
-        question_interface(QIlist)
-    if current_list == 4:
-        question_interface(QPlist)
-    if current_list == 5:
-        question_interface(QRlist)
-    if current_list == 6:
-        question_interface(QSlist)
-    if current_list == 7:
-        question_interface(Total_list)
+    question_interface(currentcategory)
 
 #_____________________________________________________________Main Interface_________________________________________________________
 def main_interface():
@@ -160,27 +146,27 @@ def main_interface():
     def main_interface_image():
         global behavior_picture, main_interface_frame, Emergency_picture, Parking_picture, Intersection_picture, Road_Position_picture, Sign_picture, ExitIcon_picture
         behavior_picture = PhotoImage(file="Image_Folder/Main Image/Behaviormainpic.png").subsample(1,1)
-        Photo_behavior_picture_label = Button(main_interface_frame, image= behavior_picture, text="Behavior", relief="solid", bd=0, bg = "black", activebackground="white", height = 187, width = 280, command=lambda: activation(1, QBlist, 10))
+        Photo_behavior_picture_label = Button(main_interface_frame, image= behavior_picture, text="Behavior", relief="solid", bd=0, bg = "black", activebackground="white", height = 187, width = 280, command=lambda: activation(QBlist, 10))
         Photo_behavior_picture_label.place(x=60, y=70)
 
         Emergency_picture = PhotoImage(file="Image_Folder/Main Image/Emergencymainpic.png").subsample(1,1)
-        Photo_Emergency_picture_label = Button(main_interface_frame, image= Emergency_picture, text="Emergency", relief="solid", bd=0, bg= "black", activebackground="white", height = 187, width = 280, command=lambda: activation(2, QElist, 10))
+        Photo_Emergency_picture_label = Button(main_interface_frame, image= Emergency_picture, text="Emergency", relief="solid", bd=0, bg= "black", activebackground="white", height = 187, width = 280, command=lambda: activation(QElist, 10))
         Photo_Emergency_picture_label.place(x=370, y=70)
 
         Intersection_picture = PhotoImage(file="Image_Folder/Main Image/Intersectionmainpic.png").subsample(1,1)
-        Photo_Intersection_picture_label = Button(main_interface_frame, image= Intersection_picture, text="Intersection", relief="solid", bd=0, bg= "black", activebackground="white", height = 187, width = 280, command=lambda: activation(3, QIlist, 10))
+        Photo_Intersection_picture_label = Button(main_interface_frame, image= Intersection_picture, text="Intersection", relief="solid", bd=0, bg= "black", activebackground="white", height = 187, width = 280, command=lambda: activation(QIlist, 10))
         Photo_Intersection_picture_label.place(x=680, y=70)
 
         Parking_picture = PhotoImage(file="Image_Folder/Main Image/Parkingmainpic.png").subsample(1,1)
-        Photo_Parking_picture_label = Button(main_interface_frame, image= Parking_picture, text="Parking", relief="solid", bg= "black", bd=0, activebackground="white", height = 187, width = 280, command=lambda: activation(4, QPlist, 10))
+        Photo_Parking_picture_label = Button(main_interface_frame, image= Parking_picture, text="Parking", relief="solid", bg= "black", bd=0, activebackground="white", height = 187, width = 280, command=lambda: activation(QPlist, 10))
         Photo_Parking_picture_label.place(x=60, y=350)
 
         Road_Position_picture = PhotoImage(file="Image_Folder/Main Image/Road_Positionmainpic.png").subsample(1,1)
-        Photo_Road_Position_picture_label = Button(main_interface_frame, image= Road_Position_picture, text="Road_position", relief="solid", bd=0, bg= "black", activebackground="white", height = 187, width = 280, command=lambda: activation(5, QRlist, 10))
+        Photo_Road_Position_picture_label = Button(main_interface_frame, image= Road_Position_picture, text="Road_position", relief="solid", bd=0, bg= "black", activebackground="white", height = 187, width = 280, command=lambda: activation(QRlist, 10))
         Photo_Road_Position_picture_label.place(x=370, y=350)
 
         Sign_picture = PhotoImage(file="Image_Folder/Main Image/Signmainpic.png").subsample(1,1)
-        Photo_Sign_picture_label = Button(main_interface_frame, image= Sign_picture, text="Sign", relief="solid", bd=0, bg= "black", activebackground="white", height = 187, width = 280, command=lambda: activation(6, QSlist, 10))
+        Photo_Sign_picture_label = Button(main_interface_frame, image= Sign_picture, text="Sign", relief="solid", bd=0, bg= "black", activebackground="white", height = 187, width = 280, command=lambda: activation(QSlist, 10))
         Photo_Sign_picture_label.place(x=680, y=350)
 
         ExitIcon_picture = PhotoImage(file="Image_Folder/Main Image/ExitIcon.png").subsample(3,3)
@@ -189,12 +175,11 @@ def main_interface():
 
     """When button of any category is clicked the frame clear function activates, 
     question interface activates and the listvariable gets replaced"""
-    def activation(currentcategory, listvar, Qamount):
+    def activation(listvar, Qamount):
         global listvariable, questionlength, current_list
         questionlength = Qamount
         clear_main_interface_frame()
         listvariable = listvar
-        current_list = currentcategory
         question_interface(listvariable)
     
     #Activation for the random_question new variable called length to get the number from the randomquestion spinbox
@@ -204,7 +189,6 @@ def main_interface():
         questionlength = length
         clear_main_interface_frame()
         listvariable = Total_list
-        current_list = 7
         question_interface(listvariable)
 
     background_image_main()
@@ -443,13 +427,13 @@ def result_interface():
 
     # Buttons for the result interface includes the Icons (Exit, Retry and Return Icons)
     def Result_Buttons():
-        global ExitIcon_picture, Photo_ReturnIcon_picture, RetryIcon_picture
+        global ExitIcon_picture, Photo_ReturnIcon_picture, RetryIcon_picture, listvariable
         Photo_ExitIcon_picture_label2 = Button(result_interface_frame, image= ExitIcon_picture, command = Exit, bd=0, bg = "white")
         Photo_ExitIcon_picture_label2.place(x=675, y=180)
         Photo_ReturnIcon_picture_label2 = Button(result_interface_frame, image= Photo_ReturnIcon_picture, command = Return2, bd=0, bg="white")
         Photo_ReturnIcon_picture_label2.place(x=675, y=280)
         RetryIcon_picture = PhotoImage(file="Image_Folder/Main Image/RetryIcon.png").subsample(3,3)
-        Photo_RetryIcon_picture_label = Button(result_interface_frame, image= RetryIcon_picture, command = Retry, bd=0, bg="white")
+        Photo_RetryIcon_picture_label = Button(result_interface_frame, image= RetryIcon_picture, command=lambda: Retry(listvariable), bd=0, bg="white")
         Photo_RetryIcon_picture_label.place(x=675, y=380)
     
     #Piechart for visualy displaying the results
