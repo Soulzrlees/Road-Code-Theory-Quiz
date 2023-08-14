@@ -62,7 +62,7 @@ Q5R = {"Question": "What does these road marking mean?",
     "Image": "Image_Folder/Question images/Road position/Q5Rpic.png"}
 #_______________________________________________________________________________________________________
 
-Q6R = {"Question": "Can you use a right turn bay to overtake a vehicle travelling straight ahead?",
+Q6R = {"Question": "Can you use a right turn bay to\n overtake a vehicle travelling straight ahead?",
 
     "Choices": ["Yes",
                 "No",

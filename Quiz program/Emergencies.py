@@ -18,7 +18,7 @@ Q1E = {"Question": "What will happen if you have a front tyre blowout?",
     "Answer": "The front end will pull towards\n the side of the blowout"}
 #_________________________________________________________________________________________________________________
 
-Q2E = {"Question": "When must you pull over and allow an ambulance or fire engine to pass?",
+Q2E = {"Question": "When must you pull over and allow an\n ambulance or fire engine to pass?",
 
     "Choices": ["If it is travelling faster than you want to",
                 "You don't need to let it past - you\n can speed up so you're not holding it up",
@@ -32,13 +32,13 @@ Q3E = {"Question": "What should you do if an ambulance comes up behind\n you fla
 
     "Choices": ["Stop quickly",
                 "Maintain your speed - the ambulance\n driver will find a way around you",
-                "Speed up so that you don't hold the ambulance up",
+                "Speed up so that you don't\n hold the ambulance up",
                 "Pull over to the left and slow\n down or stop if necessary"],
     
     "Answer": "Pull over to the left and slow\n down or stop if necessary"}
 #________________________________________________________________________________________________________________________
 
-Q4E = {"Question": "Which one of the following is most likely to cause an emergency situation?",
+Q4E = {"Question": "Which one of the following is most\n likely to cause an emergency situation?",
 
     "Choices": ["Praticing skids on a quiet road",
                 "Towing a trailer",
@@ -95,7 +95,7 @@ Q8E = {"Question": "If you are a driver involved in a\n crash, what is the FIRST
     "Answer": "The back end will sway from side to side"}
 #________________________________________________________________________________________________________________________
 
-Q9E = {"Question": "You are driving past a line of parked cars.\n You notice a ball bouncing out into the road ahead. What should you do?",
+Q9E = {"Question": "You are driving past a line of parked cars.\n You notice a ball bouncing out into\n the road ahead. What should you do?",
 
     "Choices": ["Keep driving at the same speed\n it won't matter if it hits your car",
                 "Slow down and be prepared to stop safely",
@@ -105,7 +105,7 @@ Q9E = {"Question": "You are driving past a line of parked cars.\n You notice a b
     "Answer": "Slow down and be prepared to stop safely"}
 #_____________________________________________________________________________________________________________________________
 
-Q10E = {"Question": "What does a reflectorised triangle placed on the side of the road mean?",
+Q10E = {"Question": "What does a reflectorised triangle\n placed on the side of the road mean?",
 
     "Choices": ["There's a breakdown or crash ahead",
                 "There are roadworks ahead",

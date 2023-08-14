@@ -76,7 +76,7 @@ Q6P = {"Question": "How close can you park your vehicle to the approach side of 
 
 Q7P = {"Question": "What does this sign mean?",
 
-    "Choices": ["Motorcycles are allow to park to the left of this sign,\n along with any other private vehicles",
+    "Choices": ["Motorcycles are allow to park to the left of this\n sign, along with any other private vehicles",
                 "Only motorcyles are allowed to\n park to the left of this sign",
                 "Motorcycles aren't allowed to park to the left\n of this sign, but are to the right",
                 "None of the above"],
@@ -113,7 +113,7 @@ Q10P = {"Question": "What does this sign mean?",
 
     "Choices": ["Commercial vehicle can park for 30\n minutes to the right of the sign",
                 "Any vehicle can park for 30\n minutes to the right of the sign",
-                "There's no parking for any vehcile to the right of\n the sign, but to the left you can\n park for 30 minutes",
+                "There's no parking for any vehcile to the right\n of the sign, but to the left you can\n park for 30 minutes",
                 "None of the above"],
 
     "Answer": "Any vehicle can park for 30\n minutes to the right of the sign",

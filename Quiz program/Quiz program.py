@@ -463,7 +463,7 @@ def result_interface():
                 inccombined_text += f"{idx}. {question}: \n{answer}\n\n"
             #Displaying the text
             display_question_incorrect = scrolledtext.ScrolledText(result_interface_frame, wrap=WORD, width=45, height=13, font=("Verdana", 11))
-            display_question_incorrect.insert(END, inccombined_text)
+            display_question_incorrect.insert(END, inccombined_text)    
             display_question_incorrect.config(state=DISABLED)
             display_question_incorrect.place(x=840, y=90)
         #Same thing but instead the variables are swap with question_correct and answer_correct variable
