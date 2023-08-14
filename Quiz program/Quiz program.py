@@ -20,7 +20,6 @@ from Parking import *
 from RoadPositions import *
 from Sign import *
 
-current_list = 0
 # This function is to delete all widgets in main interface frame so that the question frame could replace it
 def clear_main_interface_frame():
     global main_interface_frame
@@ -35,26 +34,19 @@ def Exit():
     else:
         pass
 
-#Return to main interface once return icon is clicked, this function resets every variable and calls the main interface function
-def Return():
-    global Questionnum, window, numbercorrect, numberincorrect, questions_incorrect, questions_correct, answers_incorrect, answers_correct
-    clear_quiz_interface_frame()
-    Questionnum = 1
-    numbercorrect = 0
-    numberincorrect = 0
-    questions_incorrect.clear()
-    questions_correct.clear()
-    answers_incorrect.clear()
-    answers_correct.clear()
-    toggleOnorOff = "Off"
-    main_interface()
-    
-
-def Return2():
+#Return function depending on which interface user is on    
+def Return(currentinterface):
     global Questionnum, window, numbercorrect, numberincorrect, questions_incorrect, questions_correct, answers_incorrect, answers_correct, toggleOnorOff
-    for widget in result_interface_frame.winfo_children():
-        widget.destroy()
-    result_interface_frame.destroy()
+    """The return function individually have a number set for example go to line 361, the number
+    determines which interface the user is on and when the return function is activated the clearning of the interface
+    would be dependant on the number. When the number is 1 it would call the clear quiz interface function, while
+    the number 2 would destroy the result interface frame instead"""
+    if currentinterface == 1:
+        clear_quiz_interface_frame()
+    if currentinterface == 2:
+        for widget in result_interface_frame.winfo_children():
+            widget.destroy()
+        result_interface_frame.destroy()
     Questionnum = 1
     numbercorrect = 0
     numberincorrect = 0
@@ -67,7 +59,7 @@ def Return2():
 
 # This retry function destroy the result interface frames and calls the selected list from before
 def Retry(currentcategory):
-    global current_list, listvariable, Questionnum, numbercorrect, numberincorrect, toggleOnorOff
+    global listvariable, Questionnum, numbercorrect, numberincorrect, toggleOnorOff
     for widget in result_interface_frame.winfo_children():
         widget.destroy() 
         result_interface_frame.destroy()
@@ -176,7 +168,7 @@ def main_interface():
     """When button of any category is clicked the frame clear function activates, 
     question interface activates and the listvariable gets replaced"""
     def activation(listvar, Qamount):
-        global listvariable, questionlength, current_list
+        global listvariable, questionlength
         questionlength = Qamount
         clear_main_interface_frame()
         listvariable = listvar
@@ -184,7 +176,7 @@ def main_interface():
     
     #Activation for the random_question new variable called length to get the number from the randomquestion spinbox
     def Random_Question_activation():
-        global listvariable, questionlength, length, randomquestion_spinbox, Total_list, current_list, Timelimit_spinbox
+        global listvariable, questionlength, length, randomquestion_spinbox, Total_list, Timelimit_spinbox
         length = int(randomquestion_spinbox.get())
         questionlength = length
         clear_main_interface_frame()
@@ -368,7 +360,7 @@ def question_interface(category_list):
             question_label.place(x=430, y=13)
             #Exit Icon for the question interface
             Photo_ReturnIcon_picture = PhotoImage(file="Image_Folder/Main Image/ReturnIcon.png").subsample(3,3)
-            Photo_ReturnIcon_picture_label_question = Button(quiz_interface_frame, image= Photo_ReturnIcon_picture, command = Return, bd=0, bg="white")
+            Photo_ReturnIcon_picture_label_question = Button(quiz_interface_frame, image= Photo_ReturnIcon_picture, command=lambda: Return(1), bd=0, bg="white")
             Photo_ReturnIcon_picture_label_question.place(x=630, y=500)
         
         #Progress bar on the quiz interface to display visual how many questions are left
@@ -430,7 +422,7 @@ def result_interface():
         global ExitIcon_picture, Photo_ReturnIcon_picture, RetryIcon_picture, listvariable
         Photo_ExitIcon_picture_label2 = Button(result_interface_frame, image= ExitIcon_picture, command = Exit, bd=0, bg = "white")
         Photo_ExitIcon_picture_label2.place(x=675, y=180)
-        Photo_ReturnIcon_picture_label2 = Button(result_interface_frame, image= Photo_ReturnIcon_picture, command = Return2, bd=0, bg="white")
+        Photo_ReturnIcon_picture_label2 = Button(result_interface_frame, image= Photo_ReturnIcon_picture, command=lambda: Return(2), bd=0, bg="white")
         Photo_ReturnIcon_picture_label2.place(x=675, y=280)
         RetryIcon_picture = PhotoImage(file="Image_Folder/Main Image/RetryIcon.png").subsample(3,3)
         Photo_RetryIcon_picture_label = Button(result_interface_frame, image= RetryIcon_picture, command=lambda: Retry(listvariable), bd=0, bg="white")
