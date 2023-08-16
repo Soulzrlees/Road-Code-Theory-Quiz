@@ -485,6 +485,7 @@ def Main():
     window.geometry(f"{window_width}x{window_height}+{x_position}+{y_position}")
     #setting minimum size of the program
     window.minsize(1200, 600)
+    window.maxsize(1400,700)
     main_interface()
     window.mainloop()
 
