@@ -50,7 +50,7 @@ Q4I = {"Question": "You're approaching this roundabout and\n want to follow the 
     "Image": "Image_Folder/Question images/Intersections/Q4Ipic.png"}
 #____________________________________________________________________________________
 
-Q5I = {"Question": "Whats; the most important rule for approaching an intersection",
+Q5I = {"Question": "What is the most important rule for approaching an intersection",
 
     "Choices": ["Indicate for atleast a second so that\n other road users know where you are going",
                 "Be prepared to stop",

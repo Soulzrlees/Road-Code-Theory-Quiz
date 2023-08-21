@@ -75,7 +75,7 @@ Q6E = {"Question": "Who can put a blue accident sign up?",
 Q7E = {"Question": "What must you do when you see two red lights flashing outside a\n fire station?",
 
     "Choices": ["Slow down and prepare to stop in case\n a vehicle exits the fire station",
-                "Stop until the lights stop flashing",
+                "Stop until the lights stop flashing",  
                 "Slow down to 20km/h, then\n proceed if it is safe to do so",
                 "None of the above"],
 
@@ -92,7 +92,7 @@ Q8E = {"Question": "If you are a driver involved in a\n crash, what is the FIRST
                 "Call for an ambulance",
                 "Leave the scene to tell someone"],
     
-    "Answer": "The back end will sway from side to side"}
+    "Answer": "Stop and check if anyone is hurt"}
 #________________________________________________________________________________________________________________________
 
 Q9E = {"Question": "You are driving past a line of parked cars.\n You notice a ball bouncing out into\n the road ahead. What should you do?",

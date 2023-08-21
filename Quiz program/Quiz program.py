@@ -208,7 +208,6 @@ numbercorrect = 0
 numberincorrect = 0
 
 Questionnum = 1
-
 # Destroys the quiz_interface_frame once it is called
 def clear_quiz_interface_frame():
     global quiz_interface_frame
@@ -220,7 +219,6 @@ def clear_quiz_interface_frame():
 def question_interface(category_list):
     global quiz_interface_frame, window,  mainfontstyle, question_list, random_question_generator, i, questions_correct, questions_incorrect, numberincorrect, numbercorrect, randomquestion_spinbox, questionlength, Total_list, answers_incorrect, toggleOnorOff
     random_question_generator = []
-
     for i in range (questionlength):
         random_question_generator.append(i)
 
@@ -245,7 +243,6 @@ def question_interface(category_list):
         position4 = {'relx': 0.64, 'rely': 0.8, 'relheight': 0.18, 'relwidth': 0.28}
         randombuttonplacement1 = [position1, position2, position3, position4]
         random.shuffle(randombuttonplacement1)
-        
         """Runtimer function contains detecting if the timer is toggle on or off and gathering the infromation of
         the timelimit spinbox to find the time limit per question"""
         def runTimer():
@@ -320,6 +317,7 @@ def question_interface(category_list):
                 questions_correct.append(question_list[0])
                 answers_correct.append(question_list[2])
                 numbercorrect += 1
+
             """This if statement is if the second dictionary of question_list is not similar to the third dictionary of question_list than
             question text and incorrect answer text would be appended to a new list. The numberincorrect variable would increase by 1 after
             every incorrect choice the user has chosen"""
@@ -327,7 +325,7 @@ def question_interface(category_list):
                 questions_incorrect.append(question_list[0])
                 answers_incorrect.append(question_list[2])
                 numberincorrect += 1
-            
+
             quiz_interface_next_question()
 
         """Getting the photo of the questions by choosing the fourth dictionary of the question_list variable since the fourth
